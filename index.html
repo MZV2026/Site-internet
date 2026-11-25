@@ -1,49 +1,100 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f7f5f1">
-<meta name="description" content="VAUBAN – Espace Technologie : imagine, conçois, programme et expérimente.">
-<title>VAUBAN · Espace Technologie</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf8f5">
+  <meta name="description" content="VAUBAN – Espace Technologie : imagine, conçois, programme et expérimente.">
+  <title>VAUBAN · Espace Technologie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
 <header class="header">
-  <a class="brand" href="./" aria-label="Accueil VAUBAN Espace Technologie">
-    <img src="assets/vauban-logo.svg?v=2" alt="VAUBAN – Espace Technologie" class="logo">
+  <a class="brand" href="./" aria-label="VAUBAN Espace Technologie, accueil">
+    <svg class="brand-logo" viewBox="0 0 760 142" role="img" aria-labelledby="brand-title brand-desc">
+      <title id="brand-title">VAUBAN Espace Technologie</title>
+      <desc id="brand-desc">Symbole circulaire bicolore prolongé par des circuits électroniques turquoise, avec le nom VAUBAN Espace Technologie.</desc>
+      <g class="brand-circuits" fill="none" stroke="#07999b" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 69H54L77 47H119M19 103H57L80 81H119M38 35H69L91 57M178 47L201 24H224M179 83H207L229 104M180 65H211L231 45"/>
+        <circle cx="5" cy="69" r="4.5" fill="#07999b"/><circle cx="19" cy="103" r="4.5" fill="#07999b"/><circle cx="38" cy="35" r="4.5" fill="#07999b"/>
+        <circle cx="224" cy="24" r="4.5" fill="#07999b"/><circle cx="229" cy="104" r="4.5" fill="#07999b"/><circle cx="231" cy="45" r="4.5" fill="#07999b"/>
+      </g>
+      <g transform="translate(59 4)">
+        <path d="M64 0A64 64 0 0 0 64 128V84A20 20 0 0 1 64 44Z" fill="#4a4141"/>
+        <path d="M72 0A64 64 0 0 1 72 128V84A20 20 0 0 0 72 44Z" fill="#a8958a"/>
+        <circle cx="68" cy="64" r="20" fill="#faf8f5"/>
+      </g>
+      <path d="M246 15V127" stroke="#b7aaa0" stroke-width="1.5"/>
+      <text x="266" y="72" font-family="Georgia,'Times New Roman',serif" font-size="65" letter-spacing="2.5" fill="#49352f">VAUBAN</text>
+      <text x="269" y="119" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="600" letter-spacing="1.1" fill="#493f40">ESPACE TECHNOLOGIE</text>
+    </svg>
   </a>
-  <nav class="nav" aria-label="Navigation"><a class="active" href="./">Accueil</a><a href="#applications">Applications</a><a href="#footer">À propos</a></nav>
-  <button class="menu" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <nav class="nav" aria-label="Navigation principale">
+    <a class="active" href="./"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10h-6v-6H9v6H3z"/></svg>Accueil</a>
+    <a href="#applications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H10l2 2h7.5A1.5 1.5 0 0 1 21 8.5v10a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg>Ressources</a>
+    <a href="#footer"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg>À propos</a>
+  </nav>
+  <button class="menu" type="button" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </header>
+
 <main>
   <section class="hero">
     <div class="hero-copy">
-      <p class="eyebrow">TON PORTAIL TECHNOLOGIQUE</p>
+      <span class="hero-mark"></span>
       <h1>Bienvenue dans ton<br>espace technologie&nbsp;!</h1>
-      <p class="tagline">Imagine, conçois, programme et expérimente.</p>
-      <p class="subline">Retrouve ici les outils et les ressources pour donner vie à tes idées.</p>
+      <p>Imagine, conçois, programme et expérimente.</p>
     </div>
-    <div class="hero-art" aria-hidden="true"><div class="circuit"><span></span><span></span><span></span><i></i></div><div class="gear">⚙</div></div>
-  </section>
-  <section id="applications" class="section">
-    <div class="section-head"><div><p class="eyebrow">EXPLORE TON ESPACE</p><h2>Que veux-tu faire aujourd'hui&nbsp;?</h2></div><p class="hint">Choisis une rubrique pour commencer.</p></div>
-    <div class="tiles">
-      <a class="tile teal" href="#" data-coming="Systèmes intelligents et connectés"><span class="tile-icon">⌁</span><div><p class="tile-kicker">DÉCOUVRIR & COMPRENDRE</p><h3>Systèmes intelligents<br>et connectés</h3><p>Capteurs, cartes, actionneurs, automatismes et objets connectés.</p></div><span class="arrow">↗</span></a>
-      <a class="tile teal" href="#" data-coming="VAUBLOCS"><span class="tile-icon code">&lt;/&gt;</span><div><p class="tile-kicker">IMAGINER & PROGRAMMER</p><h3>VAUBLOCS</h3><p>Programme tes cartes Arduino et micro:bit avec une interface par blocs.</p><span class="status">En préparation</span></div><span class="arrow">↗</span></a>
-      <a class="tile taupe" href="#" data-coming="Mes activités"><span class="tile-icon">▱</span><div><p class="tile-kicker">APPRENDRE & S'ENTRAÎNER</p><h3>Mes activités</h3><p>Retrouve les fiches, exercices, tutoriels et ressources de tes cours.</p></div><span class="arrow">↗</span></a>
-      <a class="tile taupe" href="#" data-coming="Robotique et projets"><span class="tile-icon">♧</span><div><p class="tile-kicker">CONSTRUIRE & EXPÉRIMENTER</p><h3>Robotique et projets</h3><p>Relève des défis, construis des prototypes et donne vie à tes projets.</p></div><span class="arrow">↗</span></a>
-      <a class="tile future" href="#" aria-disabled="true"><span class="tile-icon">◇</span><div><p class="tile-kicker">CONCEVOIR & MODÉLISER</p><h3>Maquette Designer</h3><p>Imagine et conçois des robots, abribus, garages à vélos, maisons intelligentes et bien d'autres maquettes.</p><span class="status">Bientôt disponible</span></div><span class="arrow">↗</span></a>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 650 280" preserveAspectRatio="xMidYMid slice">
+        <g class="hero-traces" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M-10 202H140L205 137H325L390 72H520M-10 238H180L245 173H370L438 105H660M35 160H165L230 95H360L420 35H610M250 280L330 200H455L520 135V-10M430 280L500 210H590L650 150"/>
+          <path d="M120 280L205 195H310L365 140H465M0 110H90L145 55H235"/>
+        </g>
+        <g fill="#fff"><circle cx="205" cy="137" r="7"/><circle cx="370" cy="173" r="7"/><circle cx="438" cy="105" r="7"/><circle cx="230" cy="95" r="6"/><circle cx="520" cy="72" r="6"/></g>
+        <g transform="translate(450 138)" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round">
+          <path d="M-12-82h24l5 19 17 7 16-11 17 17-11 16 7 17 19 5v24l-19 5-7 17 11 16-17 17-16-11-17 7-5 19h-24l-5-19-17-7-16 11-17-17 11-16-7-17-19-5v-24l19-5 7-17-11-16 17-17 16 11 17-7z"/>
+          <circle r="33"/>
+        </g>
+      </svg>
     </div>
   </section>
-  <aside class="help"><span class="help-mark">?</span><div><strong>Besoin d'un coup de pouce&nbsp;?</strong><p>Demande conseil à ton professeur pour choisir la bonne activité.</p></div><span class="signature">VAUBAN · TECHNOLOGIE</span></aside>
+
+  <section class="tiles" id="applications" aria-label="Les rubriques du portail">
+    <a class="tile tile-teal" href="#" data-coming="Systèmes intelligents et connectés">
+      <span class="tile-icon"><svg viewBox="0 0 64 64"><path d="M8 28a24 24 0 0 1 48 0M16 36a16 16 0 0 1 32 0M25 44a7 7 0 0 1 14 0"/><circle cx="32" cy="52" r="4" fill="currentColor" stroke="none"/></svg></span>
+      <span class="tile-copy"><strong>SYSTÈMES INTELLIGENTS<br>ET CONNECTÉS</strong><span>Capteurs, cartes, actionneurs et objets connectés.</span></span>
+      <span class="tile-arrow">→</span>
+    </a>
+    <a class="tile tile-blue" href="#" data-coming="VAUBLOCKS">
+      <span class="tile-icon"><svg viewBox="0 0 64 64"><path d="m22 13-17 19 17 19M42 13l17 19-17 19M37 7 27 57"/></svg></span>
+      <span class="tile-copy"><strong>VAUBLOCKS</strong><span>Programme Arduino et micro:bit avec des blocs.</span></span>
+      <span class="tile-arrow">→</span>
+    </a>
+    <a class="tile tile-sand" href="#" data-coming="Mes activités">
+      <span class="tile-icon"><svg viewBox="0 0 64 64"><path d="M8 15h19l7 8h22v28H8z"/></svg></span>
+      <span class="tile-copy"><strong>MES ACTIVITÉS</strong><span>Retrouve les ressources de tes cours.</span></span>
+      <span class="tile-arrow">→</span>
+    </a>
+    <a class="tile tile-sand" href="#" data-coming="Robotique et projets">
+      <span class="tile-icon"><svg viewBox="0 0 64 64"><rect x="13" y="20" width="38" height="31" rx="9"/><path d="M32 20V9m-6 0h12M5 31h8m38 0h8M5 43h8m38 0h8"/><circle cx="25" cy="33" r="3" fill="currentColor" stroke="none"/><circle cx="39" cy="33" r="3" fill="currentColor" stroke="none"/><path d="M24 43h16"/></svg></span>
+      <span class="tile-copy"><strong>ROBOTIQUE ET PROJETS</strong><span>Construis et programme tes robots et prototypes.</span></span>
+      <span class="tile-arrow">→</span>
+    </a>
+    <a class="tile tile-blue tile-wide" href="#" data-coming="Maquette Designer">
+      <span class="tile-icon"><svg viewBox="0 0 64 64"><path d="m32 5 25 14v26L32 59 7 45V19zM7 19l25 14 25-14M32 33v26M19 12l26 27M45 12 19 39"/></svg></span>
+      <span class="tile-copy"><strong>MAQUETTE DESIGNER</strong><span>Imagine et conçois des maquettes : robots, abribus, garages à vélos, maisons intelligentes…</span><em>Bientôt disponible</em></span>
+      <span class="tile-arrow">→</span>
+    </a>
+  </section>
 </main>
-<footer id="footer"><span>VAUBAN · ESPACE TECHNOLOGIE</span><span>Un espace pour apprendre, créer et expérimenter.</span></footer>
+<footer id="footer"><span></span><strong>VAUBAN · ESPACE TECHNOLOGIE</strong><span></span></footer>
 <script>
 const menu=document.querySelector('.menu'),nav=document.querySelector('.nav');
 menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')==='true';menu.setAttribute('aria-expanded',String(!open));nav.classList.toggle('open',!open)});
 document.querySelectorAll('.tile[data-coming]').forEach(tile=>tile.addEventListener('click',e=>{e.preventDefault();alert(tile.dataset.coming+' : cette rubrique sera raccordée prochainement.')}));
-document.querySelector('.future').addEventListener('click',e=>{e.preventDefault();alert('Maquette Designer sera disponible prochainement !')});
 </script>
-</body></html>
+</body>
+</html>
