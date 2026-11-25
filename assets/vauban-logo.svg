@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 280" role="img" aria-labelledby="title desc">
+<title id="title">VAUBAN Technologie</title><desc id="desc">Identité graphique VAUBAN Technologie en brun et taupe.</desc>
+<rect width="1100" height="280" fill="#ffffff"/>
+<g transform="translate(18 24)">
+<path d="M118 0 A118 118 0 0 0 118 236 L118 152 A34 34 0 0 1 118 84 Z" fill="#493f40"/>
+<path d="M136 0 A118 118 0 0 1 136 236 L136 152 A34 34 0 0 0 136 84 Z" fill="#a8958a"/>
+<circle cx="127" cy="118" r="34" fill="#fff"/>
+</g>
+<text x="300" y="145" font-family="Arial,Helvetica,sans-serif" font-size="112" font-weight="700" letter-spacing="5" fill="#493f40">VAUBAN</text>
+<text x="304" y="222" font-family="Arial,Helvetica,sans-serif" font-size="48" font-weight="500" letter-spacing="7" fill="#a8958a">ESPACE TECHNOLOGIE</text>
+</svg>
