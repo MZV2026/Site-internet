@@ -12,7 +12,7 @@
 <body>
 <header class="header">
   <a class="brand" href="./" aria-label="Accueil VAUBAN Espace Technologie">
-    <img src="assets/vauban-logo.jpg" alt="VAUBAN – Espace Technologie" class="logo">
+    <img src="assets/vauban-logo.svg" alt="VAUBAN – Espace Technologie" class="logo">
   </a>
   <nav class="nav" aria-label="Navigation"><a class="active" href="./">Accueil</a><a href="#applications">Applications</a><a href="#footer">À propos</a></nav>
   <button class="menu" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
@@ -30,10 +30,10 @@
   <section id="applications" class="section">
     <div class="section-head"><div><p class="eyebrow">EXPLORE TON ESPACE</p><h2>Que veux-tu faire aujourd'hui&nbsp;?</h2></div><p class="hint">Choisis une rubrique pour commencer.</p></div>
     <div class="tiles">
-      <a class="tile teal" href="capteurs/"><span class="tile-icon">⌁</span><div><p class="tile-kicker">DÉCOUVRIR & COMPRENDRE</p><h3>Systèmes intelligents<br>et connectés</h3><p>Capteurs, cartes, actionneurs, automatismes et objets connectés.</p></div><span class="arrow">↗</span></a>
-      <a class="tile teal" href="vaublocs/"><span class="tile-icon code">&lt;/&gt;</span><div><p class="tile-kicker">IMAGINER & PROGRAMMER</p><h3>VAUBLOCS</h3><p>Programme tes cartes Arduino et micro:bit avec une interface par blocs.</p><span class="status">En préparation</span></div><span class="arrow">↗</span></a>
-      <a class="tile taupe" href="activites/"><span class="tile-icon">▱</span><div><p class="tile-kicker">APPRENDRE & S'ENTRAÎNER</p><h3>Mes activités</h3><p>Retrouve les fiches, exercices, tutoriels et ressources de tes cours.</p></div><span class="arrow">↗</span></a>
-      <a class="tile taupe" href="projets/"><span class="tile-icon">♧</span><div><p class="tile-kicker">CONSTRUIRE & EXPÉRIMENTER</p><h3>Robotique et projets</h3><p>Relève des défis, construis des prototypes et donne vie à tes projets.</p></div><span class="arrow">↗</span></a>
+      <a class="tile teal" href="#" data-coming="Systèmes intelligents et connectés"><span class="tile-icon">⌁</span><div><p class="tile-kicker">DÉCOUVRIR & COMPRENDRE</p><h3>Systèmes intelligents<br>et connectés</h3><p>Capteurs, cartes, actionneurs, automatismes et objets connectés.</p></div><span class="arrow">↗</span></a>
+      <a class="tile teal" href="#" data-coming="VAUBLOCS"><span class="tile-icon code">&lt;/&gt;</span><div><p class="tile-kicker">IMAGINER & PROGRAMMER</p><h3>VAUBLOCS</h3><p>Programme tes cartes Arduino et micro:bit avec une interface par blocs.</p><span class="status">En préparation</span></div><span class="arrow">↗</span></a>
+      <a class="tile taupe" href="#" data-coming="Mes activités"><span class="tile-icon">▱</span><div><p class="tile-kicker">APPRENDRE & S'ENTRAÎNER</p><h3>Mes activités</h3><p>Retrouve les fiches, exercices, tutoriels et ressources de tes cours.</p></div><span class="arrow">↗</span></a>
+      <a class="tile taupe" href="#" data-coming="Robotique et projets"><span class="tile-icon">♧</span><div><p class="tile-kicker">CONSTRUIRE & EXPÉRIMENTER</p><h3>Robotique et projets</h3><p>Relève des défis, construis des prototypes et donne vie à tes projets.</p></div><span class="arrow">↗</span></a>
       <a class="tile future" href="#" aria-disabled="true"><span class="tile-icon">◇</span><div><p class="tile-kicker">CONCEVOIR & MODÉLISER</p><h3>Maquette Designer</h3><p>Imagine et conçois des robots, abribus, garages à vélos, maisons intelligentes et bien d'autres maquettes.</p><span class="status">Bientôt disponible</span></div><span class="arrow">↗</span></a>
     </div>
   </section>
@@ -43,6 +43,7 @@
 <script>
 const menu=document.querySelector('.menu'),nav=document.querySelector('.nav');
 menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')==='true';menu.setAttribute('aria-expanded',String(!open));nav.classList.toggle('open',!open)});
+document.querySelectorAll('.tile[data-coming]').forEach(tile=>tile.addEventListener('click',e=>{e.preventDefault();alert(tile.dataset.coming+' : cette rubrique sera raccordée prochainement.')}));
 document.querySelector('.future').addEventListener('click',e=>{e.preventDefault();alert('Maquette Designer sera disponible prochainement !')});
 </script>
 </body></html>
