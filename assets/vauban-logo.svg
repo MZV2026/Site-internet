@@ -1,11 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 280" role="img" aria-labelledby="title desc">
-<title id="title">VAUBAN Technologie</title><desc id="desc">Identité graphique VAUBAN Technologie en brun et taupe.</desc>
-<rect width="1100" height="280" fill="#ffffff"/>
-<g transform="translate(18 24)">
-<path d="M118 0 A118 118 0 0 0 118 236 L118 152 A34 34 0 0 1 118 84 Z" fill="#493f40"/>
-<path d="M136 0 A118 118 0 0 1 136 236 L136 152 A34 34 0 0 0 136 84 Z" fill="#a8958a"/>
-<circle cx="127" cy="118" r="34" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 190" role="img" aria-labelledby="title desc">
+<title id="title">VAUBAN Espace Technologie</title>
+<desc id="desc">Symbole Vauban bicolore prolongé par des circuits turquoise, avec le nom VAUBAN et la mention Espace Technologie.</desc>
+<g fill="none" stroke="#07999b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M14 100H55L79 76H116M30 135H65L88 112H116M53 58H77L96 77M160 77L183 55H215M160 112L188 139H218M165 95H197L216 76"/>
+<circle cx="14" cy="100" r="5" fill="#07999b"/><circle cx="30" cy="135" r="5" fill="#07999b"/><circle cx="53" cy="58" r="5" fill="#07999b"/><circle cx="215" cy="55" r="5" fill="#07999b"/><circle cx="218" cy="139" r="5" fill="#07999b"/><circle cx="216" cy="76" r="5" fill="#07999b"/>
 </g>
-<text x="300" y="145" font-family="Arial,Helvetica,sans-serif" font-size="112" font-weight="700" letter-spacing="5" fill="#493f40">VAUBAN</text>
-<text x="304" y="222" font-family="Arial,Helvetica,sans-serif" font-size="48" font-weight="500" letter-spacing="7" fill="#a8958a">ESPACE TECHNOLOGIE</text>
+<g transform="translate(62 5)">
+<path d="M78 0A78 78 0 0 0 78 156V102A24 24 0 0 1 78 54Z" fill="#493f40"/>
+<path d="M90 0A78 78 0 0 1 90 156V102A24 24 0 0 0 90 54Z" fill="#a8958a"/>
+<circle cx="84" cy="78" r="24" fill="#fff"/>
+</g>
+<path d="M252 22V165" stroke="#c8beb6" stroke-width="2"/>
+<text x="278" y="91" font-family="Georgia,'Times New Roman',serif" font-size="78" font-weight="700" letter-spacing="3" fill="#49352f">VAUBAN</text>
+<text x="281" y="143" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" letter-spacing="1.2" fill="#493f40">ESPACE TECHNOLOGIE</text>
 </svg>
