@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f5f1">
+<meta name="description" content="VAUBAN – Espace Technologie : imagine, conçois, programme et expérimente.">
+<title>VAUBAN · Espace Technologie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="header">
+  <a class="brand" href="./" aria-label="Accueil VAUBAN Espace Technologie">
+    <img src="assets/vauban-logo.jpg" alt="VAUBAN – Espace Technologie" class="logo">
+  </a>
+  <nav class="nav" aria-label="Navigation"><a class="active" href="./">Accueil</a><a href="#applications">Applications</a><a href="#footer">À propos</a></nav>
+  <button class="menu" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+<main>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">TON PORTAIL TECHNOLOGIQUE</p>
+      <h1>Bienvenue dans ton<br>espace technologie&nbsp;!</h1>
+      <p class="tagline">Imagine, conçois, programme et expérimente.</p>
+      <p class="subline">Retrouve ici les outils et les ressources pour donner vie à tes idées.</p>
+    </div>
+    <div class="hero-art" aria-hidden="true"><div class="circuit"><span></span><span></span><span></span><i></i></div><div class="gear">⚙</div></div>
+  </section>
+  <section id="applications" class="section">
+    <div class="section-head"><div><p class="eyebrow">EXPLORE TON ESPACE</p><h2>Que veux-tu faire aujourd'hui&nbsp;?</h2></div><p class="hint">Choisis une rubrique pour commencer.</p></div>
+    <div class="tiles">
+      <a class="tile teal" href="capteurs/"><span class="tile-icon">⌁</span><div><p class="tile-kicker">DÉCOUVRIR & COMPRENDRE</p><h3>Systèmes intelligents<br>et connectés</h3><p>Capteurs, cartes, actionneurs, automatismes et objets connectés.</p></div><span class="arrow">↗</span></a>
+      <a class="tile teal" href="vaublocs/"><span class="tile-icon code">&lt;/&gt;</span><div><p class="tile-kicker">IMAGINER & PROGRAMMER</p><h3>VAUBLOCS</h3><p>Programme tes cartes Arduino et micro:bit avec une interface par blocs.</p><span class="status">En préparation</span></div><span class="arrow">↗</span></a>
+      <a class="tile taupe" href="activites/"><span class="tile-icon">▱</span><div><p class="tile-kicker">APPRENDRE & S'ENTRAÎNER</p><h3>Mes activités</h3><p>Retrouve les fiches, exercices, tutoriels et ressources de tes cours.</p></div><span class="arrow">↗</span></a>
+      <a class="tile taupe" href="projets/"><span class="tile-icon">♧</span><div><p class="tile-kicker">CONSTRUIRE & EXPÉRIMENTER</p><h3>Robotique et projets</h3><p>Relève des défis, construis des prototypes et donne vie à tes projets.</p></div><span class="arrow">↗</span></a>
+      <a class="tile future" href="#" aria-disabled="true"><span class="tile-icon">◇</span><div><p class="tile-kicker">CONCEVOIR & MODÉLISER</p><h3>Maquette Designer</h3><p>Imagine et conçois des robots, abribus, garages à vélos, maisons intelligentes et bien d'autres maquettes.</p><span class="status">Bientôt disponible</span></div><span class="arrow">↗</span></a>
+    </div>
+  </section>
+  <aside class="help"><span class="help-mark">?</span><div><strong>Besoin d'un coup de pouce&nbsp;?</strong><p>Demande conseil à ton professeur pour choisir la bonne activité.</p></div><span class="signature">VAUBAN · TECHNOLOGIE</span></aside>
+</main>
+<footer id="footer"><span>VAUBAN · ESPACE TECHNOLOGIE</span><span>Un espace pour apprendre, créer et expérimenter.</span></footer>
+<script>
+const menu=document.querySelector('.menu'),nav=document.querySelector('.nav');
+menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')==='true';menu.setAttribute('aria-expanded',String(!open));nav.classList.toggle('open',!open)});
+document.querySelector('.future').addEventListener('click',e=>{e.preventDefault();alert('Maquette Designer sera disponible prochainement !')});
+</script>
+</body></html>
