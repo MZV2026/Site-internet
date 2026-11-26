@@ -159,13 +159,13 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
   <div class="readout">Température<strong><span id="simTemp">16</span> °C</strong></div>
  </div>
  <div class="anim-controls">
-  <button type="button" id="startSim">▶ Démarrer le chronomètre et le chauffage</button>
+  <button type="button" id="startSim">⏻ Mettre la résistance en marche</button>
   <button type="button" id="pauseSim">Ⅱ Pause</button>
   <button type="button" id="resetSim">↺ Recommencer</button>
   <button type="button" id="takeReading" disabled>+ Relever cette mesure</button>
  </div>
- <div class="anim-status" id="simStatus">L’expérience est prête. Appuie sur « Démarrer le chronomètre » pour commencer.</div>
- <p class="note" style="text-align:center">Schéma simplifié. Au départ, l’eau est à 20 °C : elle ne bout pas et aucune bulle n’est visible. Le thermomètre est déjà plongé dans l’eau, sans toucher le fond.</p>
+ <div class="anim-status" id="simStatus">L’expérience est prête. Appuie sur l’interrupteur pour mettre la résistance en marche.</div>
+ <p class="note" style="text-align:center">Schéma simplifié. Au départ, l’eau est à 16 °C : elle est liquide et aucune bulle n’est visible. Le thermomètre est déjà plongé dans l’eau, sans toucher le fond.</p>
 </div>
 </section>
 <section class="panel">
@@ -257,7 +257,7 @@ function data(){
  return timeCells.map((el,i)=>({sec:parseClock(el.value),temp:tempCells[i].value.trim()===''?null:Number(tempCells[i].value)}))
  .filter(p=>p.sec!==null&&p.temp!==null&&Number.isFinite(p.temp)).map(p=>[p.sec/60,p.temp]).sort((a,b)=>a[0]-b[0]);
 }
-document.getElementById('reset').onclick=()=>{[...timeCells,...tempCells].forEach(el=>el.value='');stateCells.forEach(el=>el.textContent='');timeCells[0].value='0:00';tempCells[0].value='16';stateCells[0].textContent='Liquide (se réchauffe)';};
+document.getElementById('reset').onclick=()=>{[...timeCells,...tempCells].forEach(el=>el.value='');stateCells.forEach(el=>el.textContent='');timeCells[0].value='0:00';tempCells[0].value='16';stateCells[0].textContent='Liquide';};
 const graph=document.getElementById('studentGraph'),gctx=graph.getContext('2d');
 let placed=[],joined=false;
 function drawGrid(c,points=[],connect=false,title='',xl='',yl=''){
@@ -323,8 +323,8 @@ const timeOut=document.getElementById('simTime'),tempOut=document.getElementById
 const statusOut=document.getElementById('simStatus'),steam=document.getElementById('steam');
 const water=document.getElementById('water'),digitalTempOut=document.getElementById('digitalTemp');
 const startButton=document.getElementById('startSim'),readingButton=document.getElementById('takeReading');
-function simTemperature(t){return t<=90 ? 16+(84*t/90) : 100;}
-function waterState(temp){return temp>=100?'Ébullition (liquide + vapeur)':'Liquide (se réchauffe)';}
+let simTemperatureValue=16, resistanceOn=false, experimentStarted=false;
+function waterState(temp){return temp>=100?'Ébullition (liquide + vapeur)':'Liquide';}
 // Création de nombreuses bulles : leur nombre augmente progressivement avec la température.
 const bubbleLayer=water;
 const bubbleCount=30;
@@ -340,7 +340,7 @@ for(let i=0;i<bubbleCount;i++){
 }
 function renderSim(){
  const totalSeconds=Math.round(simElapsed*2),mm=Math.floor(totalSeconds/60),ss=totalSeconds%60;
- const temp=Math.round(simTemperature(simElapsed));
+ const temp=Math.round(simTemperatureValue);
  timeOut.textContent=`${mm} min ${String(ss).padStart(2,'0')} s`;tempOut.textContent=temp;
  digitalTempOut.textContent=temp;
  water.style.height=(62+(temp-20)*.12)+'%';
@@ -358,25 +358,56 @@ function renderSim(){
  else statusOut.textContent='L’eau se réchauffe : sa température augmente. À 20 °C, aucune ébullition ni bulle n’est visible.';
  if(simElapsed>=simDuration){stopSim();statusOut.textContent='Fin de la simulation : l’eau a bouilli à 100 °C pendant plusieurs minutes.';}
 }
-function stopSim(){simRunning=false;if(simTimer){clearInterval(simTimer);simTimer=null;}startButton.disabled=false;readingButton.disabled=simElapsed===0;}
+function stopSim(){simRunning=false;if(simTimer){clearInterval(simTimer);simTimer=null;}document.getElementById('pauseSim').disabled=true;}
+function startClock(){
+ if(simRunning || simElapsed>=simDuration)return;
+ simRunning=true;
+ readingButton.disabled=false;
+ document.getElementById('pauseSim').disabled=false;
+ simTimer=setInterval(()=>{
+   simElapsed=Math.min(simDuration,simElapsed+0.1);
+   if(resistanceOn){
+     simTemperatureValue=Math.min(100,simTemperatureValue+0.0933333);
+   }else{
+     simTemperatureValue=Math.max(16,simTemperatureValue-0.04);
+   }
+   renderSim();
+   if(simElapsed>=simDuration){
+     stopSim();
+     resistanceOn=false;
+     startButton.textContent='⏻ Mettre la résistance en marche';
+     statusOut.textContent='Fin de l’expérience : le chronomètre a atteint 12 minutes.';
+   }
+ },100);
+}
 startButton.addEventListener('click',()=>{
- if(simElapsed>=simDuration){simElapsed=0;renderSim();}
- if(simRunning)return;simRunning=true;startButton.disabled=true;readingButton.disabled=false;
- statusOut.textContent='Chronomètre et chauffage en marche…';
- simTimer=setInterval(()=>{simElapsed=Math.min(simDuration,simElapsed+0.1);renderSim();if(simElapsed>=simDuration)stopSim();},100);
+ if(simElapsed>=simDuration)return;
+ if(!experimentStarted){experimentStarted=true;startClock();}
+ resistanceOn=!resistanceOn;
+ startButton.textContent=resistanceOn?'⏻ Arrêter la résistance':'⏻ Remettre la résistance en marche';
+ statusOut.textContent=resistanceOn?'Résistance en marche : l’eau chauffe.':'Résistance arrêtée : l’eau refroidit progressivement vers 16 °C.';
 });
-document.getElementById('pauseSim').addEventListener('click',()=>{if(simRunning){stopSim();statusOut.textContent='Pause : le chauffage et le chronomètre sont arrêtés temporairement.';}});
-document.getElementById('resetSim').addEventListener('click',()=>{stopSim();simElapsed=0;renderSim();startButton.disabled=false;readingButton.disabled=true;statusOut.textContent='Expérience remise à zéro. Appuie sur « Démarrer le chronomètre » pour recommencer.';});
+document.getElementById('pauseSim').addEventListener('click',()=>{
+ if(simRunning){stopSim();statusOut.textContent='Chronomètre en pause. Appuie sur l’interrupteur pour changer l’état de la résistance.';}
+ else if(experimentStarted){startClock();statusOut.textContent=resistanceOn?'Chronomètre repris : la résistance chauffe.':'Chronomètre repris : l’eau refroidit.';}
+});
+document.getElementById('resetSim').addEventListener('click',()=>{
+ stopSim();simElapsed=0;simTemperatureValue=16;resistanceOn=false;experimentStarted=false;
+ renderSim();startButton.disabled=false;startButton.textContent='⏻ Mettre la résistance en marche';
+ readingButton.disabled=true;document.getElementById('pauseSim').disabled=true;
+ statusOut.textContent='Expérience remise à zéro. Appuie sur l’interrupteur pour mettre la résistance en marche.';
+});
 readingButton.addEventListener('click',()=>{
- if(simElapsed===0){statusOut.textContent='Démarre d’abord le chronomètre et le chauffage.';return;}
+ if(!experimentStarted){statusOut.textContent='Mets d’abord la résistance en marche.';return;}
  const index=timeCells.findIndex((el,i)=>el.value.trim()===''&&tempCells[i].value.trim()==='');
  if(index<0){statusOut.textContent='Le tableau est complet. Efface-le pour recommencer.';return;}
  const totalSeconds=Math.round(simElapsed*2),mins=Math.floor(totalSeconds/60),secs=totalSeconds%60;
  timeCells[index].value=`${mins}:${String(secs).padStart(2,'0')}`;
- tempCells[index].value=Math.round(simTemperature(simElapsed));
- stateCells[index].textContent=waterState(Math.round(simTemperature(simElapsed)));
- statusOut.textContent=`Mesure ajoutée au tableau : ${Math.round(simTemperature(simElapsed))} °C.`;
+ tempCells[index].value=Math.round(simTemperatureValue);
+ stateCells[index].textContent=waterState(Math.round(simTemperatureValue));
+ statusOut.textContent=`Mesure ajoutée au tableau : ${Math.round(simTemperatureValue)} °C.`;
 });
+document.getElementById('pauseSim').disabled=true;
 renderSim();
 </script>
 </body></html>
