@@ -48,8 +48,11 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
 .readouts{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:12px 0}
 .readout{background:white;border:1px solid #d4e0e6;border-radius:8px;padding:8px 16px;text-align:center;min-width:125px}
 .readout strong{display:block;font-size:1.45rem;color:#176b87}
-.anim-controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.anim-controls button{margin:3px}
+.animation-layout{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:14px;align-items:center}
+.animation-main{min-width:0}
+.anim-controls{display:flex;flex-direction:column;gap:8px;justify-content:center;flex-wrap:wrap}
+.anim-controls button{margin:0;width:100%}
+@media(max-width:700px){.animation-layout{grid-template-columns:1fr}.anim-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.anim-controls button{width:100%}}
 .anim-status{text-align:center;font-weight:bold;color:#176b87;margin:8px}
 
 
@@ -142,8 +145,10 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
 </section>
 <section class="panel">
 <h2>2. Animation : chauffer l’eau pure</h2>
-<p>Le bécher et le thermomètre sont déjà installés. Appuie sur « Démarrer le chronomètre » : le temps et le chauffage démarrent ensemble. Relève régulièrement les valeurs affichées.</p>
+<p>Le bécher et le thermomètre sont déjà installés. Utilise l’interrupteur situé sur la plaque pour mettre en marche ou arrêter la résistance. Le chronomètre démarre avec la première mise en marche. Relève régulièrement les valeurs affichées.</p>
 <div class="animation">
+ <div class="animation-layout">
+ <div class="animation-main">
  <div class="scene" aria-label="Animation schématique d'un bécher d'eau chauffé">
   <div class="steam" id="steam"></div>
   <span class="scene-label lab-beaker">Bécher</span>
@@ -164,11 +169,12 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
   <div class="readout">Temps écoulé<strong><span id="simTime">0 min 00 s</span></strong></div>
   <div class="readout">Température<strong><span id="simTemp">16</span> °C</strong></div>
  </div>
+ </div>
  <div class="anim-controls">
-  <button type="button" id="startSim">⏻ Mettre la résistance en marche</button>
   <button type="button" id="pauseSim">Ⅱ Pause</button>
   <button type="button" id="resetSim">↺ Recommencer</button>
   <button type="button" id="takeReading" disabled>+ Relever cette mesure</button>
+ </div>
  </div>
  <div class="anim-status" id="simStatus">L’expérience est prête. Appuie sur l’interrupteur pour mettre la résistance en marche.</div>
  <p class="note" style="text-align:center">Schéma simplifié. Au départ, l’eau est à 16 °C : elle est liquide et aucune bulle n’est visible. Le thermomètre est déjà plongé dans l’eau, sans toucher le fond.</p>
@@ -191,9 +197,9 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
 <h2>4. À toi de construire le graphique</h2>
 <p>Reporte les valeurs du tableau dans le repère : clique à l’endroit correspondant à chaque couple (temps ; température). Les points apparaissent dans l’ordre où tu les places.</p>
 <div class="graph-inputs">
- <label>Titre du graphique<input id="graphTitle" type="text" placeholder="Ex. Évolution de la température de l’eau"></label>
- <label>Nom de l’axe horizontal<input id="xLabel" type="text" placeholder="Temps (min)"></label>
- <label>Nom de l’axe vertical<input id="yLabel" type="text" placeholder="Ex. Température (°C)"></label>
+ <label>Titre du graphique<input id="graphTitle" type="text" placeholder="À compléter"></label>
+ <label>Nom de l’axe horizontal<input id="xLabel" type="text" placeholder="À compléter"></label>
+ <label>Nom de l’axe vertical<input id="yLabel" type="text" placeholder="À compléter"></label>
 </div>
 <canvas id="studentGraph" width="900" height="520"></canvas>
 <p class="note" id="plotHelp">Repère : de 0 à 12 min en abscisse et de 0 à 120 °C en ordonnée. Les temps du tableau au format min:s sont convertis pour le placement. Clique dans le quadrillage pour placer les points.</p>
@@ -275,8 +281,8 @@ function drawGrid(c,points=[],connect=false,title='',xl='',yl=''){
  for(let v=0;v<=120;v+=10){cctx.beginPath();cctx.moveTo(L,Y(v));cctx.lineTo(W-R,Y(v));cctx.stroke();if(v%20===0)cctx.fillText(v,30,Y(v)+5)}
  cctx.strokeStyle='#203747';cctx.lineWidth=2;cctx.beginPath();cctx.moveTo(L,T);cctx.lineTo(L,H-B);cctx.lineTo(W-R,H-B);cctx.stroke();
  cctx.fillStyle='#203747';cctx.font='bold 19px Arial';cctx.textAlign='center';if(title)cctx.fillText(title,W/2,27);
- cctx.font='17px Arial';cctx.fillText(xl||'Nom de l’axe horizontal',(L+W-R)/2,H-12);
- cctx.save();cctx.translate(20,(T+H-B)/2);cctx.rotate(-Math.PI/2);cctx.fillText(yl||'Nom de l’axe vertical',0,0);cctx.restore();cctx.textAlign='left';
+ cctx.font='17px Arial';if(xl)cctx.fillText(xl,(L+W-R)/2,H-12);
+ cctx.save();cctx.translate(20,(T+H-B)/2);cctx.rotate(-Math.PI/2);if(yl)cctx.fillText(yl,0,0);cctx.restore();cctx.textAlign='left';
  if(connect&&points.length>1){cctx.strokeStyle='#176b87';cctx.lineWidth=3;cctx.beginPath();points.forEach((p,i)=>i?cctx.lineTo(X(p[0]),Y(p[1])):cctx.moveTo(X(p[0]),Y(p[1])));cctx.stroke()}
  points.forEach((p,i)=>{const x=X(p[0]),y=Y(p[1]),r=7;cctx.strokeStyle='#c47b12';cctx.lineWidth=2.5;cctx.beginPath();cctx.moveTo(x-r,y);cctx.lineTo(x+r,y);cctx.moveTo(x,y-r);cctx.lineTo(x,y+r);cctx.stroke();cctx.fillStyle='#203747';cctx.font='13px Arial';cctx.fillText(String(i+1),x+9,y-8)});
 }
@@ -328,7 +334,7 @@ const simDuration=240; // 12 minutes simulées ; 1 seconde réelle = 2 secondes 
 const timeOut=document.getElementById('simTime'),tempOut=document.getElementById('simTemp');
 const statusOut=document.getElementById('simStatus'),steam=document.getElementById('steam');
 const water=document.getElementById('water'),digitalTempOut=document.getElementById('digitalTemp');
-const startButton=document.getElementById('startSim'),readingButton=document.getElementById('takeReading');
+const startButton=document.createElement('button'),readingButton=document.getElementById('takeReading');
 const heater=document.getElementById('heater'),heaterSwitch=document.getElementById('heaterSwitch');
 let simTemperatureValue=16, resistanceOn=false, experimentStarted=false;
 function waterState(temp){return temp>=100?'Ébullition (liquide + vapeur)':'Liquide';}
