@@ -200,7 +200,7 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
  <label>Nom de l’axe vertical<input id="yLabel" type="text" placeholder="À compléter"></label>
 </div>
 <canvas id="studentGraph" width="900" height="520"></canvas>
-<p class="note" id="plotHelp">Repère : de 0 à 12 min en abscisse et de 0 à 120 °C en ordonnée. Les temps du tableau au format min:s sont convertis pour le placement. Clique dans le quadrillage pour placer les points.</p>
+<p class="note" id="plotHelp">Repère : de 0 à 12 min en abscisse et de 0 à 120 °C en ordonnée. Les temps du tableau au format min:s sont convertis pour le placement. Déplace la souris : un guide vertical indique la graduation de 30 secondes la plus proche. Clique pour placer le point sur cette graduation.</p>
 <button type="button" id="undoPoint">Annuler le dernier point</button>
 <button type="button" id="clearPoints">Effacer les points</button>
 <button type="button" id="joinPoints">Relier les points</button>
@@ -266,7 +266,12 @@ function data(){
 }
 document.getElementById('reset').onclick=()=>{[...timeCells,...tempCells].forEach(el=>el.value='');stateCells.forEach(el=>el.textContent='');timeCells[0].value='0:00';tempCells[0].value='16';stateCells[0].textContent='Liquide';};
 const graph=document.getElementById('studentGraph'),gctx=graph.getContext('2d');
-let placed=[],joined=false;
+let placed=[],joined=false,hoverTime=null;
+function snapTime(seconds){return Math.max(0,Math.min(12,Math.round(seconds*2)/2));}
+function formatTime(minutes){
+ const total=Math.round(minutes*60),m=Math.floor(total/60),sec=total%60;
+ return m+' min '+String(sec).padStart(2,'0')+' s';
+}
 function drawGrid(c,points=[],connect=false,title='',xl='',yl=''){
  const cctx=c.getContext('2d'),W=c.width,H=c.height,L=75,R=25,T=55,B=70;
  cctx.clearRect(0,0,W,H);cctx.fillStyle='#fff';cctx.fillRect(0,0,W,H);
@@ -281,12 +286,28 @@ function drawGrid(c,points=[],connect=false,title='',xl='',yl=''){
  if(connect&&points.length>1){cctx.strokeStyle='#176b87';cctx.lineWidth=3;cctx.beginPath();points.forEach((p,i)=>i?cctx.lineTo(X(p[0]),Y(p[1])):cctx.moveTo(X(p[0]),Y(p[1])));cctx.stroke()}
  points.forEach((p,i)=>{const x=X(p[0]),y=Y(p[1]),r=7;cctx.strokeStyle='#c47b12';cctx.lineWidth=2.5;cctx.beginPath();cctx.moveTo(x-r,y);cctx.lineTo(x+r,y);cctx.moveTo(x,y-r);cctx.lineTo(x,y+r);cctx.stroke();cctx.fillStyle='#203747';cctx.font='13px Arial';cctx.fillText(String(i+1),x+9,y-8)});
 }
-function draw(){drawGrid(graph,placed,joined,document.getElementById('graphTitle').value,document.getElementById('xLabel').value,document.getElementById('yLabel').value)}
-graph.addEventListener('click',ev=>{
+function draw(){
+ drawGrid(graph,placed,joined,document.getElementById('graphTitle').value,document.getElementById('xLabel').value,document.getElementById('yLabel').value);
+ if(hoverTime!==null){
+  const L=75,R=25,T=55,B=70,W=graph.width,H=graph.height,x=L+hoverTime/12*(W-L-R);
+  gctx.save();gctx.strokeStyle='#d47b18';gctx.lineWidth=2;gctx.setLineDash([7,5]);gctx.beginPath();gctx.moveTo(x,T);gctx.lineTo(x,H-B);gctx.stroke();gctx.setLineDash([]);
+  const label=formatTime(hoverTime);gctx.font='bold 15px Arial';const w=gctx.measureText(label).width+14;
+  gctx.fillStyle='#fff4d9';gctx.strokeStyle='#d47b18';gctx.lineWidth=1;gctx.fillRect(Math.min(Math.max(x-w/2,L),W-R-w),T+5,w,25);gctx.strokeRect(Math.min(Math.max(x-w/2,L),W-R-w),T+5,w,25);
+  gctx.fillStyle='#70420b';gctx.textAlign='center';gctx.fillText(label,Math.min(Math.max(x-w/2,L),W-R-w)+w/2,T+23);gctx.restore();
+ }
+}
+function graphCoordinates(ev){
  const r=graph.getBoundingClientRect(),px=(ev.clientX-r.left)*graph.width/r.width,py=(ev.clientY-r.top)*graph.height/r.height;
- const L=75,R=25,T=55,B=70;if(px<L||px>graph.width-R||py<T||py>graph.height-B)return;
- const t=Math.round((px-L)/(graph.width-L-R)*12*10)/10,temp=Math.round((graph.height-B-py)/(graph.height-T-B)*120);
- placed.push([t,temp]);joined=false;draw();
+ const L=75,R=25,T=55,B=70;
+ if(px<L||px>graph.width-R||py<T||py>graph.height-B)return null;
+ const rawMinutes=(px-L)/(graph.width-L-R)*12;
+ return {time:snapTime(rawMinutes),temp:Math.round((graph.height-B-py)/(graph.height-T-B)*120)};
+}
+graph.addEventListener('mousemove',ev=>{const p=graphCoordinates(ev);hoverTime=p?p.time:null;draw();});
+graph.addEventListener('mouseleave',()=>{hoverTime=null;draw();});
+graph.addEventListener('click',ev=>{
+ const p=graphCoordinates(ev);if(!p)return;
+ placed.push([p.time,p.temp]);joined=false;draw();
 });
 ['graphTitle','xLabel','yLabel'].forEach(id=>document.getElementById(id).addEventListener('input',draw));
 document.getElementById('undoPoint').onclick=()=>{placed.pop();draw()};
