@@ -88,19 +88,16 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
 .operation-log .done{color:#205d42}
 
 @media print{
+ @page{size:A4 portrait;margin:7mm}
  body.print-graphs *{visibility:hidden!important}
  body.print-graphs #graphPrintArea,body.print-graphs #graphPrintArea *{visibility:visible!important}
- body.print-graphs #graphPrintArea{display:block!important;position:absolute;left:0;top:0;width:100%;padding:8mm}
- body.print-graphs .print-grid{display:grid;grid-template-rows:1fr 1fr;gap:5mm;height:220mm}
- body.print-graphs #printTableArea{margin-bottom:5mm}
- body.print-graphs #printTableArea table{width:100%;min-width:0;border-collapse:collapse;font-size:10pt}
- body.print-graphs #printTableArea th,body.print-graphs #printTableArea td{border:1px solid #555;padding:2mm;text-align:center}
- body.print-graphs #printTableArea h3{margin:0 0 2mm}
- body.print-graphs .print-one{padding:2mm}
- body.print-graphs .print-one canvas{height:90mm!important}
- body.print-graphs .print-one{border:1px dashed #777;padding:4mm;break-inside:avoid}
- body.print-graphs .print-one canvas{height:105mm!important}
- body.print-graphs .print-one h3{margin:0 0 3mm}
+ body.print-graphs #graphPrintArea{display:block!important;position:absolute;left:0;top:0;width:100%;padding:0}
+ body.print-graphs .print-copy{height:139mm;overflow:hidden;padding:2mm 1mm;border-bottom:1px dashed #777;break-inside:avoid}
+ body.print-graphs .print-copy:last-child{border-bottom:0}
+ body.print-graphs .print-copy h3{font-size:11pt;margin:0 0 1mm}
+ body.print-graphs .print-copy table{width:100%;min-width:0;border-collapse:collapse;table-layout:fixed;font-size:7.5pt;margin-bottom:1mm}
+ body.print-graphs .print-copy th,body.print-graphs .print-copy td{border:1px solid #555;padding:1mm 0;text-align:center;overflow-wrap:anywhere}
+ body.print-graphs .print-copy canvas{display:block;width:100%;height:91mm!important;border:0}
 }
 
 @media print{body{background:white}.panel{break-inside:avoid}button{display:none}iframe{height:250px}}
@@ -164,7 +161,7 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
   <div class="probe" id="probe" title="Sonde de température plongée dans l’eau"></div>
   <div class="probe-wire" aria-hidden="true"></div>
   <div class="digital-thermometer"><div class="digital-screen"><span id="digitalTemp">16</span><small>°C</small></div><div class="digital-label">THERMOMÈTRE NUMÉRIQUE</div></div>
-  <div class="heat" id="heater" title="Plaque chauffante"></div><button type="button" class="heat-switch" id="heaterSwitch" aria-label="Mettre la résistance en marche" title="Interrupteur de la résistance">I</button>
+  <div class="heat off" id="heater" title="Plaque chauffante"></div><button type="button" class="heat-switch off" id="heaterSwitch" aria-label="Mettre la résistance en marche" title="Interrupteur de la résistance">O</button>
  </div>
  <div class="readouts">
   <div class="readout">Temps écoulé<strong><span id="simTime">0 min 00 s</span></strong></div>
@@ -209,11 +206,8 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
 <button type="button" id="joinPoints">Relier les points</button>
 <button type="button" id="printGraphs">Imprimer le graphique (2 exemplaires)</button>
 <div id="graphPrintArea" style="display:none">
-  <div id="printTableArea"></div>
- <div class="print-grid">
-  <div class="print-one"><h3 id="printTitle1">Graphique – Élève 1</h3><canvas id="printGraph1" width="900" height="430"></canvas></div>
-  <div class="print-one"><h3 id="printTitle2">Graphique – Élève 2</h3><canvas id="printGraph2" width="900" height="430"></canvas></div>
- </div>
+ <div class="print-copy"><h3>Tableau de mesures et graphique – Élève 1</h3><div class="print-table"></div><canvas id="printGraph1" width="900" height="430"></canvas></div>
+ <div class="print-copy"><h3>Tableau de mesures et graphique – Élève 2</h3><div class="print-table"></div><canvas id="printGraph2" width="900" height="430"></canvas></div>
 </div>
 </section>
 </div>
@@ -305,11 +299,10 @@ document.getElementById('printGraphs').onclick=()=>{
   ['Température (°C)', ...tempCells.map(el=>el.value.trim())],
   ['État de l’eau', ...stateCells.map(el=>el.textContent.trim())]
  ];
- document.getElementById('printTableArea').innerHTML='<h3>Tableau des mesures</h3><table><tbody>'+printRows.map(row=>'<tr>'+row.map((v,i)=>i===0?'<th>'+v+'</th>':'<td>'+v+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
- document.getElementById('printTitle1').textContent=title+' – Élève 1';
- document.getElementById('printTitle2').textContent=title+' – Élève 2';
- drawGrid(document.getElementById('printGraph1'),placed,joined, title,document.getElementById('xLabel').value,document.getElementById('yLabel').value);
- drawGrid(document.getElementById('printGraph2'),placed,joined, title,document.getElementById('xLabel').value,document.getElementById('yLabel').value);
+ const tableHtml='<table><tbody>'+printRows.map(row=>'<tr>'+row.map((v,i)=>i===0?'<th>'+v+'</th>':'<td>'+v+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
+ document.querySelectorAll('#graphPrintArea .print-table').forEach(el=>el.innerHTML=tableHtml);
+ drawGrid(document.getElementById('printGraph1'),placed,joined,title,document.getElementById('xLabel').value,document.getElementById('yLabel').value);
+ drawGrid(document.getElementById('printGraph2'),placed,joined,title,document.getElementById('xLabel').value,document.getElementById('yLabel').value);
  document.getElementById('graphPrintArea').style.display='block';document.body.classList.add('print-graphs');window.print();document.body.classList.remove('print-graphs');document.getElementById('graphPrintArea').style.display='none';
 };
 document.getElementById('checkQuiz').onclick=()=>{
