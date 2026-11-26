@@ -25,6 +25,12 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
 .water{position:absolute;bottom:0;left:0;right:0;height:62%;background:linear-gradient(90deg,#8bd4e4aa,#4bb3d0aa,#9ce2eaaa);border-top:3px solid #55a9c2;transition:height .5s}
 .heat{position:absolute;bottom:5px;width:230px;height:22px;background:linear-gradient(#536b78,#243d4b);border-radius:8px;box-shadow:0 5px 0 #aebdc5}
 .heat:before{content:"";position:absolute;left:25px;right:25px;top:-7px;height:6px;border-radius:5px;background:#e5a63a;box-shadow:0 0 12px #ffb52e}
+.heat{cursor:pointer;transition:filter .2s}
+.heat.off:before{background:#657984;box-shadow:none}
+.heat-switch{position:absolute;left:50%;bottom:32px;transform:translateX(-50%);z-index:8;width:34px;height:34px;border-radius:50%;border:3px solid #344b59;background:#d94b43;color:white;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 4px #23374466;padding:0;margin:0}
+.heat-switch.off{background:#607580;color:#fff}
+.heat-switch:focus{outline:3px solid #f0c45b;outline-offset:2px}
+
 .probe{position:absolute;left:calc(50% + 42px);bottom:82px;width:7px;height:145px;background:linear-gradient(90deg,#687d88,#f8fbfc 45%,#718792);border:1px solid #536b78;border-radius:5px;z-index:4;box-shadow:1px 1px 2px #526875}
 .probe:after{content:"";position:absolute;bottom:-5px;left:-2px;width:9px;height:10px;border-radius:50%;background:#9baeb7;border:1px solid #536b78}
 .probe-wire{position:absolute;left:calc(50% + 45px);top:70px;width:100px;height:18px;border-top:4px solid #263f4d;border-right:4px solid #263f4d;border-radius:0 16px 0 0;z-index:3}
@@ -152,7 +158,7 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
   <div class="probe" id="probe" title="Sonde de température plongée dans l’eau"></div>
   <div class="probe-wire" aria-hidden="true"></div>
   <div class="digital-thermometer"><div class="digital-screen"><span id="digitalTemp">16</span><small>°C</small></div><div class="digital-label">THERMOMÈTRE NUMÉRIQUE</div></div>
-  <div class="heat" id="heater" title="Résistance chauffante"></div>
+  <div class="heat" id="heater" title="Plaque chauffante"></div><button type="button" class="heat-switch" id="heaterSwitch" aria-label="Mettre la résistance en marche" title="Interrupteur de la résistance">I</button>
  </div>
  <div class="readouts">
   <div class="readout">Temps écoulé<strong><span id="simTime">0 min 00 s</span></strong></div>
@@ -323,6 +329,7 @@ const timeOut=document.getElementById('simTime'),tempOut=document.getElementById
 const statusOut=document.getElementById('simStatus'),steam=document.getElementById('steam');
 const water=document.getElementById('water'),digitalTempOut=document.getElementById('digitalTemp');
 const startButton=document.getElementById('startSim'),readingButton=document.getElementById('takeReading');
+const heater=document.getElementById('heater'),heaterSwitch=document.getElementById('heaterSwitch');
 let simTemperatureValue=16, resistanceOn=false, experimentStarted=false;
 function waterState(temp){return temp>=100?'Ébullition (liquide + vapeur)':'Liquide';}
 // Création de nombreuses bulles : leur nombre augmente progressivement avec la température.
@@ -378,6 +385,7 @@ function startClock(){
      stopSim();
      resistanceOn=false;
      startButton.textContent='⏻ Mettre la résistance en marche';
+ heater.classList.toggle('off',!resistanceOn);heaterSwitch.classList.toggle('off',!resistanceOn);heaterSwitch.textContent=resistanceOn?'I':'O';
      statusOut.textContent='Fin de l’expérience : le chronomètre a atteint 12 minutes.';
    }
  },100);
@@ -387,6 +395,7 @@ startButton.addEventListener('click',()=>{
  if(!experimentStarted){experimentStarted=true;startClock();}
  resistanceOn=!resistanceOn;
  startButton.textContent=resistanceOn?'⏻ Arrêter la résistance':'⏻ Remettre la résistance en marche';
+ heater.classList.toggle('off',!resistanceOn);heaterSwitch.classList.toggle('off',!resistanceOn);heaterSwitch.textContent=resistanceOn?'I':'O';
  statusOut.textContent=resistanceOn?'Résistance en marche : l’eau chauffe.':'Résistance arrêtée : l’eau refroidit progressivement vers 16 °C.';
 });
 document.getElementById('pauseSim').addEventListener('click',()=>{
@@ -397,8 +406,11 @@ document.getElementById('resetSim').addEventListener('click',()=>{
  stopSim();simElapsed=0;simTemperatureValue=16;resistanceOn=false;experimentStarted=false;
  renderSim();startButton.disabled=false;startButton.textContent='⏻ Mettre la résistance en marche';
  readingButton.disabled=true;document.getElementById('pauseSim').disabled=true;
+ heater.classList.add('off');heaterSwitch.classList.add('off');heaterSwitch.textContent='O';
  statusOut.textContent='Expérience remise à zéro. Appuie sur l’interrupteur pour mettre la résistance en marche.';
 });
+heaterSwitch.addEventListener('click',()=>startButton.click());
+heater.addEventListener('click',()=>startButton.click());
 readingButton.addEventListener('click',()=>{
  if(!experimentStarted){statusOut.textContent='Mets d’abord la résistance en marche.';return;}
  const index=timeCells.findIndex((el,i)=>el.value.trim()===''&&tempCells[i].value.trim()==='');
