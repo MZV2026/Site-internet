@@ -25,13 +25,14 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
 .water{position:absolute;bottom:0;left:0;right:0;height:62%;background:linear-gradient(90deg,#8bd4e4aa,#4bb3d0aa,#9ce2eaaa);border-top:3px solid #55a9c2;transition:height .5s}
 .heat{position:absolute;bottom:5px;width:230px;height:22px;background:linear-gradient(#536b78,#243d4b);border-radius:8px;box-shadow:0 5px 0 #aebdc5}
 .heat:before{content:"";position:absolute;left:25px;right:25px;top:-7px;height:6px;border-radius:5px;background:#e5a63a;box-shadow:0 0 12px #ffb52e}
-.thermo{position:absolute;left:calc(50% + 62px);bottom:83px;width:16px;height:160px;border:2px solid #637d8a;border-radius:10px 10px 3px 3px;background:#fff;z-index:4}
-.thermo:after{content:"";position:absolute;bottom:-13px;left:-4px;width:18px;height:18px;border:2px solid #637d8a;border-radius:50%;background:#e75b52;z-index:5}
-.thermo-fill{position:absolute;bottom:2px;left:4px;right:4px;height:12%;background:#e75b52;border-radius:8px;transition:height .4s}
-.thermo-scale{position:absolute;left:calc(50% + 82px);bottom:88px;height:155px;width:42px;z-index:5;font-size:10px;color:#344b59}
-.thermo-scale span{position:absolute;left:0;transform:translateY(50%);white-space:nowrap}
-.thermo-scale span:before{content:"";position:absolute;right:100%;top:50%;width:7px;border-top:1px solid #637d8a;margin-right:3px}
-.thermo-scale .s0{bottom:0}.thermo-scale .s20{bottom:20%}.thermo-scale .s40{bottom:40%}.thermo-scale .s60{bottom:60%}.thermo-scale .s80{bottom:80%}.thermo-scale .s100{bottom:100%}
+.probe{position:absolute;left:calc(50% + 42px);bottom:82px;width:7px;height:145px;background:linear-gradient(90deg,#687d88,#f8fbfc 45%,#718792);border:1px solid #536b78;border-radius:5px;z-index:4;box-shadow:1px 1px 2px #526875}
+.probe:after{content:"";position:absolute;bottom:-5px;left:-2px;width:9px;height:10px;border-radius:50%;background:#9baeb7;border:1px solid #536b78}
+.probe-wire{position:absolute;left:calc(50% + 45px);bottom:215px;width:105px;height:58px;border-top:4px solid #263f4d;border-right:4px solid #263f4d;border-radius:0 22px 0 0;z-index:3}
+.digital-thermometer{position:absolute;left:calc(50% + 142px);bottom:142px;width:105px;height:70px;background:linear-gradient(145deg,#f7fafb,#cbd6db);border:2px solid #657d88;border-radius:10px;box-shadow:0 3px 5px #60778266;z-index:6;padding:8px}
+.digital-screen{height:34px;background:#263c3b;border:2px solid #8b9b98;border-radius:4px;color:#baf3b2;display:flex;align-items:center;justify-content:center;gap:4px;font:bold 22px/1 monospace;box-shadow:inset 0 0 5px #000}
+.digital-screen small{font-size:12px}
+.digital-label{text-align:center;font-size:8px;letter-spacing:.08em;color:#344b59;font-weight:bold;margin-top:4px}
+@media(max-width:620px){.digital-thermometer{left:calc(50% + 105px);transform:scale(.85);transform-origin:left bottom}.probe-wire{width:75px}}
 .bubble{position:absolute;bottom:5px;width:9px;height:9px;border:2px solid #fff;border-radius:50%;background:#ffffff88;animation:rise 2.3s infinite ease-in;visibility:hidden}
 @keyframes rise{0%{transform:translateY(0) scale(.7);opacity:0}15%{opacity:.9}100%{transform:translateY(-170px) scale(1.25);opacity:0}}
 .steam{position:absolute;bottom:220px;left:calc(50% - 45px);width:90px;height:70px;opacity:0;transition:opacity .8s}
@@ -141,15 +142,16 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
   <div class="steam" id="steam"></div>
   <span class="scene-label lab-beaker">Bécher</span>
   <span class="scene-label lab-water">Eau</span>
-  <span class="scene-label lab-thermo">Thermomètre</span>
+  <span class="scene-label lab-thermo">Sonde</span>
   <span class="scene-label lab-heat">Source de chaleur</span>
   <div class="beaker" id="beaker" draggable="true" title="Déplace le bécher sur la résistance">
    <div class="water" id="water">
     
    </div>
   </div>
-  <div class="thermo" id="thermo" draggable="true" title="Déplace le thermomètre dans l’eau"><div class="thermo-fill" id="thermoFill"></div></div>
-  <div class="thermo-scale"><span class="s0">0</span><span class="s20">20</span><span class="s40">40</span><span class="s60">60</span><span class="s80">80</span><span class="s100">100 °C</span></div>
+  <div class="probe" id="probe" title="Sonde de température plongée dans l’eau"></div>
+  <div class="probe-wire" aria-hidden="true"></div>
+  <div class="digital-thermometer"><div class="digital-screen"><span id="digitalTemp">16</span><small>°C</small></div><div class="digital-label">THERMOMÈTRE NUMÉRIQUE</div></div>
   <div class="heat" id="heater" title="Résistance chauffante"></div>
  </div>
  <div class="readouts">
@@ -319,7 +321,7 @@ let simElapsed=0, simRunning=false, simTimer=null;
 const simDuration=240; // 12 minutes simulées ; 1 seconde réelle = 2 secondes simulées
 const timeOut=document.getElementById('simTime'),tempOut=document.getElementById('simTemp');
 const statusOut=document.getElementById('simStatus'),steam=document.getElementById('steam');
-const water=document.getElementById('water'),thermoFill=document.getElementById('thermoFill');
+const water=document.getElementById('water'),digitalTempOut=document.getElementById('digitalTemp');
 const startButton=document.getElementById('startSim'),readingButton=document.getElementById('takeReading');
 function simTemperature(t){return t<=90 ? 16+(84*t/90) : 100;}
 function waterState(temp){return temp>=100?'Ébullition (liquide + vapeur)':'Liquide (se réchauffe)';}
@@ -340,7 +342,7 @@ function renderSim(){
  const totalSeconds=Math.round(simElapsed*2),mm=Math.floor(totalSeconds/60),ss=totalSeconds%60;
  const temp=Math.round(simTemperature(simElapsed));
  timeOut.textContent=`${mm} min ${String(ss).padStart(2,'0')} s`;tempOut.textContent=temp;
- thermoFill.style.height=(8+(temp/100)*82)+'%';
+ digitalTempOut.textContent=temp;
  water.style.height=(62+(temp-20)*.12)+'%';
  const boiling=temp>=100;
  const firstBubbles=temp>=70 && !boiling;
