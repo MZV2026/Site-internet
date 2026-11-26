@@ -80,7 +80,13 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
  body.print-graphs *{visibility:hidden!important}
  body.print-graphs #graphPrintArea,body.print-graphs #graphPrintArea *{visibility:visible!important}
  body.print-graphs #graphPrintArea{display:block!important;position:absolute;left:0;top:0;width:100%;padding:8mm}
- body.print-graphs .print-grid{display:grid;grid-template-rows:1fr 1fr;gap:8mm;height:275mm}
+ body.print-graphs .print-grid{display:grid;grid-template-rows:1fr 1fr;gap:5mm;height:220mm}
+ body.print-graphs #printTableArea{margin-bottom:5mm}
+ body.print-graphs #printTableArea table{width:100%;min-width:0;border-collapse:collapse;font-size:10pt}
+ body.print-graphs #printTableArea th,body.print-graphs #printTableArea td{border:1px solid #555;padding:2mm;text-align:center}
+ body.print-graphs #printTableArea h3{margin:0 0 2mm}
+ body.print-graphs .print-one{padding:2mm}
+ body.print-graphs .print-one canvas{height:90mm!important}
  body.print-graphs .print-one{border:1px dashed #777;padding:4mm;break-inside:avoid}
  body.print-graphs .print-one canvas{height:105mm!important}
  body.print-graphs .print-one h3{margin:0 0 3mm}
@@ -148,7 +154,7 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
  </div>
  <div class="readouts">
   <div class="readout">Temps écoulé<strong><span id="simTime">0 min 00 s</span></strong></div>
-  <div class="readout">Température<strong><span id="simTemp">20</span> °C</strong></div>
+  <div class="readout">Température<strong><span id="simTemp">16</span> °C</strong></div>
  </div>
  <div class="anim-controls">
   <button type="button" id="startSim">▶ Démarrer le chronomètre et le chauffage</button>
@@ -169,6 +175,7 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
 <tbody>
 <tr id="timeRow"><th>Temps (min : s)</th><td><input class="time-cell" type="text" aria-label="Temps mesure 1"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 2"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 3"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 4"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 5"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 6"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 7"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 8"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 9"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 10"></td></tr>
 <tr id="tempRow"><th>Température (°C)</th><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 1"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 2"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 3"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 4"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 5"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 6"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 7"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 8"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 9"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 10"></td></tr>
+<tr id="stateRow"><th>État de l’eau</th><td class="state-cell" aria-label="État de l’eau mesure 1"></td><td class="state-cell" aria-label="État de l’eau mesure 2"></td><td class="state-cell" aria-label="État de l’eau mesure 3"></td><td class="state-cell" aria-label="État de l’eau mesure 4"></td><td class="state-cell" aria-label="État de l’eau mesure 5"></td><td class="state-cell" aria-label="État de l’eau mesure 6"></td><td class="state-cell" aria-label="État de l’eau mesure 7"></td><td class="state-cell" aria-label="État de l’eau mesure 8"></td><td class="state-cell" aria-label="État de l’eau mesure 9"></td><td class="state-cell" aria-label="État de l’eau mesure 10"></td></tr>
 </tbody></table></div>
 <button id="reset" type="button">Effacer le tableau</button>
 </section>
@@ -187,6 +194,7 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
 <button type="button" id="joinPoints">Relier les points</button>
 <button type="button" id="printGraphs">Imprimer le graphique (2 exemplaires)</button>
 <div id="graphPrintArea" style="display:none">
+  <div id="printTableArea"></div>
  <div class="print-grid">
   <div class="print-one"><h3 id="printTitle1">Graphique – Élève 1</h3><canvas id="printGraph1" width="900" height="430"></canvas></div>
   <div class="print-one"><h3 id="printTitle2">Graphique – Élève 2</h3><canvas id="printGraph2" width="900" height="430"></canvas></div>
@@ -235,7 +243,7 @@ textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;p
 </main>
 <script>
 
-const timeCells=[...document.querySelectorAll('.time-cell')],tempCells=[...document.querySelectorAll('.temp-cell')];
+const timeCells=[...document.querySelectorAll('.time-cell')],tempCells=[...document.querySelectorAll('.temp-cell')],stateCells=[...document.querySelectorAll('.state-cell')];
 function parseClock(value){
  const m=value.trim().match(/^(?:(\d+)\s*[:m]\s*)?(\d{1,2})\s*s?$/i);
  if(!m)return null;
@@ -247,7 +255,7 @@ function data(){
  return timeCells.map((el,i)=>({sec:parseClock(el.value),temp:tempCells[i].value.trim()===''?null:Number(tempCells[i].value)}))
  .filter(p=>p.sec!==null&&p.temp!==null&&Number.isFinite(p.temp)).map(p=>[p.sec/60,p.temp]).sort((a,b)=>a[0]-b[0]);
 }
-document.getElementById('reset').onclick=()=>{[...timeCells,...tempCells].forEach(el=>el.value='');};
+document.getElementById('reset').onclick=()=>{[...timeCells,...tempCells].forEach(el=>el.value='');stateCells.forEach(el=>el.textContent='');};
 const graph=document.getElementById('studentGraph'),gctx=graph.getContext('2d');
 let placed=[],joined=false;
 function drawGrid(c,points=[],connect=false,title='',xl='',yl=''){
@@ -255,7 +263,7 @@ function drawGrid(c,points=[],connect=false,title='',xl='',yl=''){
  cctx.clearRect(0,0,W,H);cctx.fillStyle='#fff';cctx.fillRect(0,0,W,H);
  const X=v=>L+v/12*(W-L-R),Y=v=>H-B-v/120*(H-T-B);
  cctx.strokeStyle='#dce5e9';cctx.lineWidth=1;cctx.font='16px Arial';cctx.fillStyle='#344b59';
- for(let v=0;v<=12;v+=1){cctx.beginPath();cctx.moveTo(X(v),T);cctx.lineTo(X(v),H-B);cctx.stroke();if(v%2===0)cctx.fillText(v,X(v)-5,H-B+25)}
+ for(let v=0;v<=12.0001;v+=0.5){cctx.beginPath();cctx.moveTo(X(v),T);cctx.lineTo(X(v),H-B);cctx.stroke();if(Math.abs(v-Math.round(v))<0.001)cctx.fillText(v,X(v)-5,H-B+25)}
  for(let v=0;v<=120;v+=10){cctx.beginPath();cctx.moveTo(L,Y(v));cctx.lineTo(W-R,Y(v));cctx.stroke();if(v%20===0)cctx.fillText(v,30,Y(v)+5)}
  cctx.strokeStyle='#203747';cctx.lineWidth=2;cctx.beginPath();cctx.moveTo(L,T);cctx.lineTo(L,H-B);cctx.lineTo(W-R,H-B);cctx.stroke();
  cctx.fillStyle='#203747';cctx.font='bold 19px Arial';cctx.textAlign='center';if(title)cctx.fillText(title,W/2,27);
@@ -277,6 +285,12 @@ document.getElementById('clearPoints').onclick=()=>{placed=[];joined=false;draw(
 document.getElementById('joinPoints').onclick=()=>{joined=true;draw()};
 document.getElementById('printGraphs').onclick=()=>{
  const title=document.getElementById('graphTitle').value||'Graphique – Évolution de la température';
+ const printRows = [
+  ['Temps (min:s)', ...timeCells.map(el=>el.value.trim())],
+  ['Température (°C)', ...tempCells.map(el=>el.value.trim())],
+  ['État de l’eau', ...stateCells.map(el=>el.textContent.trim())]
+ ];
+ document.getElementById('printTableArea').innerHTML='<h3>Tableau des mesures</h3><table><tbody>'+printRows.map(row=>'<tr>'+row.map((v,i)=>i===0?'<th>'+v+'</th>':'<td>'+v+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
  document.getElementById('printTitle1').textContent=title+' – Élève 1';
  document.getElementById('printTitle2').textContent=title+' – Élève 2';
  drawGrid(document.getElementById('printGraph1'),placed,joined, title,document.getElementById('xLabel').value,document.getElementById('yLabel').value);
@@ -302,12 +316,13 @@ document.querySelectorAll('.prediction').forEach(el=>el.addEventListener('click'
 draw();
 // Chronomètre et chauffage démarrent ensemble.
 let simElapsed=0, simRunning=false, simTimer=null;
-const simDuration=240; // 12 minutes simulées ; 1 seconde réelle = 3 secondes simulées
+const simDuration=240; // 12 minutes simulées ; 1 seconde réelle = 2 secondes simulées
 const timeOut=document.getElementById('simTime'),tempOut=document.getElementById('simTemp');
 const statusOut=document.getElementById('simStatus'),steam=document.getElementById('steam');
 const water=document.getElementById('water'),thermoFill=document.getElementById('thermoFill');
 const startButton=document.getElementById('startSim'),readingButton=document.getElementById('takeReading');
-function simTemperature(t){return t<=24 ? 20+(80*t/24) : 100;}
+function simTemperature(t){return t<=60 ? 16+(84*t/60) : 100;}
+function waterState(temp){return temp>=100?'Ébullition (liquide + vapeur)':'Liquide (se réchauffe)';}
 // Création de nombreuses bulles : leur nombre augmente progressivement avec la température.
 const bubbleLayer=water;
 const bubbleCount=30;
@@ -322,7 +337,7 @@ for(let i=0;i<bubbleCount;i++){
  bubbleLayer.appendChild(b);
 }
 function renderSim(){
- const totalSeconds=Math.round(simElapsed*3),mm=Math.floor(totalSeconds/60),ss=totalSeconds%60;
+ const totalSeconds=Math.round(simElapsed*2),mm=Math.floor(totalSeconds/60),ss=totalSeconds%60;
  const temp=Math.round(simTemperature(simElapsed));
  timeOut.textContent=`${mm} min ${String(ss).padStart(2,'0')} s`;tempOut.textContent=temp;
  thermoFill.style.height=(8+(temp/100)*82)+'%';
@@ -346,7 +361,7 @@ startButton.addEventListener('click',()=>{
  if(simElapsed>=simDuration){simElapsed=0;renderSim();}
  if(simRunning)return;simRunning=true;startButton.disabled=true;readingButton.disabled=false;
  statusOut.textContent='Chronomètre et chauffage en marche…';
- simTimer=setInterval(()=>{simElapsed=Math.min(simDuration,simElapsed+0.0666667);renderSim();if(simElapsed>=simDuration)stopSim();},100);
+ simTimer=setInterval(()=>{simElapsed=Math.min(simDuration,simElapsed+0.1);renderSim();if(simElapsed>=simDuration)stopSim();},100);
 });
 document.getElementById('pauseSim').addEventListener('click',()=>{if(simRunning){stopSim();statusOut.textContent='Pause : le chauffage et le chronomètre sont arrêtés temporairement.';}});
 document.getElementById('resetSim').addEventListener('click',()=>{stopSim();simElapsed=0;renderSim();startButton.disabled=false;readingButton.disabled=true;statusOut.textContent='Expérience remise à zéro. Appuie sur « Démarrer le chronomètre » pour recommencer.';});
@@ -354,9 +369,10 @@ readingButton.addEventListener('click',()=>{
  if(simElapsed===0){statusOut.textContent='Démarre d’abord le chronomètre et le chauffage.';return;}
  const index=timeCells.findIndex((el,i)=>el.value.trim()===''&&tempCells[i].value.trim()==='');
  if(index<0){statusOut.textContent='Le tableau est complet. Efface-le pour recommencer.';return;}
- const totalSeconds=Math.round(simElapsed*3),mins=Math.floor(totalSeconds/60),secs=totalSeconds%60;
+ const totalSeconds=Math.round(simElapsed*2),mins=Math.floor(totalSeconds/60),secs=totalSeconds%60;
  timeCells[index].value=`${mins}:${String(secs).padStart(2,'0')}`;
  tempCells[index].value=Math.round(simTemperature(simElapsed));
+ stateCells[index].textContent=waterState(Math.round(simTemperature(simElapsed)));
  statusOut.textContent=`Mesure ajoutée au tableau : ${Math.round(simTemperature(simElapsed))} °C.`;
 });
 renderSim();
