@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EIST 5e – L’ébullition de l’eau pure</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f7f9;color:#203747;font:16px/1.5 Arial,sans-serif}
+header{background:#176b87;color:#fff;padding:22px max(18px,calc((100% - 1000px)/2))}
+header small{font-weight:bold;letter-spacing:.08em;text-transform:uppercase}h1{font-size:clamp(1.7rem,4vw,2.35rem);margin:5px 0}
+main{max-width:1000px;margin:20px auto;padding:0 15px 35px}.panel{background:white;border:1px solid #d8e3e8;border-radius:12px;padding:18px;margin:15px 0}
+h2{font-size:1.2rem;color:#176b87;margin:0 0 10px}.question{background:#fff8e5;border-left:4px solid #e6b442;padding:10px 13px;border-radius:5px;font-weight:bold}
+ol{padding-left:23px;margin:8px 0}li{margin:6px 0}
+iframe{width:100%;height:420px;border:1px solid #d8e3e8;border-radius:8px}
+.note{font-size:.9rem;color:#5b6e79}
+table{border-collapse:collapse;width:100%;min-width:680px;table-layout:fixed}th,td{border:1px solid #cbd9df;padding:6px 4px;text-align:center}th{background:#eaf3f6}input{width:100%;max-width:100%;padding:6px;border:1px solid #cbd9df;border-radius:5px;text-align:center;font:inherit}
+button{background:#176b87;color:white;border:0;border-radius:7px;padding:9px 14px;font-weight:bold;cursor:pointer;margin:8px 5px 0 0}
+canvas{width:100%;height:340px;display:block;background:#fff;border:1px solid #e0e8ec;border-radius:7px}
+textarea{width:100%;min-height:58px;border:1px solid #cbd9df;border-radius:6px;padding:9px;font:inherit}
+@media(min-width:800px){.two{display:block}}
+
+.animation{background:#f1f7fa;border:1px solid #d5e3e9;border-radius:10px;padding:14px}
+.scene{height:300px;position:relative;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;background:linear-gradient(#eaf5fa,#f8fbfc);border-radius:8px}
+.beaker{position:relative;width:190px;height:205px;border:5px solid #8aa9b8;border-top:0;border-radius:0 0 28px 28px;background:rgba(255,255,255,.35);overflow:hidden;margin-bottom:22px}
+.water{position:absolute;bottom:0;left:0;right:0;height:62%;background:linear-gradient(90deg,#8bd4e4aa,#4bb3d0aa,#9ce2eaaa);border-top:3px solid #55a9c2;transition:height .5s}
+.heat{position:absolute;bottom:5px;width:230px;height:22px;background:linear-gradient(#536b78,#243d4b);border-radius:8px;box-shadow:0 5px 0 #aebdc5}
+.heat:before{content:"";position:absolute;left:25px;right:25px;top:-7px;height:6px;border-radius:5px;background:#e5a63a;box-shadow:0 0 12px #ffb52e}
+.thermo{position:absolute;left:calc(50% + 62px);bottom:83px;width:16px;height:160px;border:2px solid #637d8a;border-radius:10px 10px 3px 3px;background:#fff;z-index:4}
+.thermo:after{content:"";position:absolute;bottom:-13px;left:-4px;width:18px;height:18px;border:2px solid #637d8a;border-radius:50%;background:#e75b52;z-index:5}
+.thermo-fill{position:absolute;bottom:2px;left:4px;right:4px;height:12%;background:#e75b52;border-radius:8px;transition:height .4s}
+.thermo-scale{position:absolute;left:calc(50% + 82px);bottom:88px;height:155px;width:42px;z-index:5;font-size:10px;color:#344b59}
+.thermo-scale span{position:absolute;left:0;transform:translateY(50%);white-space:nowrap}
+.thermo-scale span:before{content:"";position:absolute;right:100%;top:50%;width:7px;border-top:1px solid #637d8a;margin-right:3px}
+.thermo-scale .s0{bottom:0}.thermo-scale .s20{bottom:20%}.thermo-scale .s40{bottom:40%}.thermo-scale .s60{bottom:60%}.thermo-scale .s80{bottom:80%}.thermo-scale .s100{bottom:100%}
+.bubble{position:absolute;bottom:5px;width:9px;height:9px;border:2px solid #fff;border-radius:50%;background:#ffffff88;animation:rise 2.3s infinite ease-in;visibility:hidden}
+@keyframes rise{0%{transform:translateY(0) scale(.7);opacity:0}15%{opacity:.9}100%{transform:translateY(-170px) scale(1.25);opacity:0}}
+.steam{position:absolute;bottom:220px;left:calc(50% - 45px);width:90px;height:70px;opacity:0;transition:opacity .8s}
+.steam:before,.steam:after{content:"";position:absolute;width:25px;height:58px;border-left:5px solid #c3d5dc;border-radius:50%;filter:blur(2px);animation:steam 2s infinite ease-in-out}
+.steam:after{left:35px;animation-delay:.8s}
+@keyframes steam{0%{transform:translateY(15px) scale(.8);opacity:0}50%{opacity:.8}100%{transform:translateY(-18px) scale(1.2);opacity:0}}
+.readouts{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:12px 0}
+.readout{background:white;border:1px solid #d4e0e6;border-radius:8px;padding:8px 16px;text-align:center;min-width:125px}
+.readout strong{display:block;font-size:1.45rem;color:#176b87}
+.anim-controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.anim-controls button{margin:3px}
+.anim-status{text-align:center;font-weight:bold;color:#176b87;margin:8px}
+
+
+/* Ajouts : hypothèses, schéma annoté, tracé manuel et quiz */
+.hypo-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px;margin:10px 0}
+.choice{display:block;border:1px solid #cfdae0;border-radius:8px;padding:10px;background:#fbfdfe;cursor:pointer}
+.choice input{width:auto;margin-right:6px}
+.predictions{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.prediction{border:1px solid #cfdae0;border-radius:8px;padding:7px;background:white;cursor:pointer}
+.prediction input{width:auto}
+.prediction canvas{height:125px;border:0}
+.prediction.selected{outline:3px solid #75b9c8}
+.scene-label{position:absolute;background:#fff;border:1px solid #9db5c1;border-radius:5px;padding:3px 7px;font-size:12px;font-weight:bold;z-index:5}
+.lab-beaker{left:calc(50% - 165px);bottom:155px}.lab-water{left:calc(50% - 165px);bottom:85px}.lab-heat{left:calc(50% - 155px);bottom:4px}.lab-thermo{right:calc(50% - 190px);bottom:180px}
+.thermo{right:auto;left:calc(50% + 62px);bottom:83px;height:160px;width:16px}
+.thermo:after{width:19px;height:19px;left:-4px}
+.graph-inputs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.graph-inputs input{max-width:none;text-align:left}
+#studentGraph{height:480px;cursor:crosshair;touch-action:manipulation}
+.quiz-q{padding:12px 0;border-bottom:1px solid #e1e9ed}
+.quiz-q label{display:inline-block;font-weight:normal;margin:5px 12px 5px 0}
+.feedback{font-weight:bold;margin-top:8px}
+
+.setup-box{background:#fff8e8;border:1px solid #ead9a9;border-radius:8px;padding:12px;margin:12px 0}
+.setup-box ol{margin:6px 0 6px 22px}
+.scene .scene-label{pointer-events:none}
+
+
+.operation-log{background:#fff;border:1px solid #d8e3e8;border-radius:7px;padding:9px 12px;margin:10px 0}
+.operation-log ol{margin:6px 0 2px 22px;padding:0}
+.operation-log li{margin:4px 0}
+.operation-log .waiting{color:#7b8b94;font-style:italic}
+.operation-log .done{color:#205d42}
+\n@media print{
+ body.print-graphs *{visibility:hidden!important}
+ body.print-graphs #graphPrintArea,body.print-graphs #graphPrintArea *{visibility:visible!important}
+ body.print-graphs #graphPrintArea{display:block!important;position:absolute;left:0;top:0;width:100%;padding:8mm}
+ body.print-graphs .print-grid{display:grid;grid-template-rows:1fr 1fr;gap:8mm;height:275mm}
+ body.print-graphs .print-one{border:1px dashed #777;padding:4mm;break-inside:avoid}
+ body.print-graphs .print-one canvas{height:105mm!important}
+ body.print-graphs .print-one h3{margin:0 0 3mm}
+}
+
+@media print{body{background:white}.panel{break-inside:avoid}button{display:none}iframe{height:250px}}
+</style>
+</head>
+<body>
+<header><small>EIST • Classe de 5e</small><h1>Quelle est la température d’ébullition de l’eau pure ?</h1>
+<p>On chauffe de l’eau et on observe l’évolution de sa température au cours du temps.</p></header>
+<main>
+<section class="panel">
+<h2>Avant l’expérience : tes hypothèses</h2>
+<p><b>1. À quelle température l'eau pure va-t-elle bouillir ?</b></p>
+<div class="hypo-options" id="boilChoices">
+ <label class="choice"><input type="radio" name="boilHyp" value="50"> 50 °C</label>
+ <label class="choice"><input type="radio" name="boilHyp" value="80"> 80 °C</label>
+ <label class="choice"><input type="radio" name="boilHyp" value="100"> 100 °C</label>
+ <label class="choice"><input type="radio" name="boilHyp" value="120"> 120 °C</label>
+</div>
+<p><b>2. Si on continue de chauffer pendant l'ébullition, à quoi ressemblera la courbe ?</b></p>
+<div class="predictions" id="predictions">
+ <label class="prediction"><input type="radio" name="curveHyp" value="rise"> A
+  <canvas id="predA" width="180" height="120"></canvas><small>La température continue d’augmenter.</small>
+ </label>
+ <label class="prediction"><input type="radio" name="curveHyp" value="flat"> B
+  <canvas id="predB" width="180" height="120"></canvas><small>La température reste constante.</small>
+ </label>
+ <label class="prediction"><input type="radio" name="curveHyp" value="fall"> C
+  <canvas id="predC" width="180" height="120"></canvas><small>La température diminue.</small>
+ </label>
+</div>
+<p class="note">Ces réponses sont des hypothèses : tu pourras les vérifier à la fin de l’activité.</p>
+</section>
+<section class="panel">
+<h2>1. Travail à réaliser</h2>
+<div class="question">Problématique : à quelle température l’eau pure entre-t-elle en ébullition ?</div>
+<ol>
+<li>Appuie sur « Démarrer le chronomètre et le chauffage », puis observe l’évolution de l’eau.</li>
+<li>À intervalles réguliers, clique sur « Relever cette mesure » pour remplir le tableau.</li>
+<li>Après l’expérience, utilise tes mesures pour placer toi-même les points dans le repère.</li>
+<li>Ajoute le nom des axes et un titre, puis relie les points dans l’ordre.</li>
+<li>Termine par le petit quiz et compare tes résultats à tes hypothèses.</li>
+</ol>
+</section>
+<section class="panel">
+<h2>2. Animation : chauffer l’eau pure</h2>
+<p>Le bécher et le thermomètre sont déjà installés. Appuie sur « Démarrer le chronomètre » : le temps et le chauffage démarrent ensemble. Relève régulièrement les valeurs affichées.</p>
+<div class="animation">
+ <div class="scene" aria-label="Animation schématique d'un bécher d'eau chauffé">
+  <div class="steam" id="steam"></div>
+  <span class="scene-label lab-beaker">Bécher</span>
+  <span class="scene-label lab-water">Eau</span>
+  <span class="scene-label lab-thermo">Thermomètre</span>
+  <span class="scene-label lab-heat">Source de chaleur</span>
+  <div class="beaker" id="beaker" draggable="true" title="Déplace le bécher sur la résistance">
+   <div class="water" id="water">
+    
+   </div>
+  </div>
+  <div class="thermo" id="thermo" draggable="true" title="Déplace le thermomètre dans l’eau"><div class="thermo-fill" id="thermoFill"></div></div>
+  <div class="thermo-scale"><span class="s0">0</span><span class="s20">20</span><span class="s40">40</span><span class="s60">60</span><span class="s80">80</span><span class="s100">100 °C</span></div>
+  <div class="heat" id="heater" title="Résistance chauffante"></div>
+ </div>
+ <div class="readouts">
+  <div class="readout">Temps écoulé<strong><span id="simTime">0 min 00 s</span></strong></div>
+  <div class="readout">Température<strong><span id="simTemp">20</span> °C</strong></div>
+ </div>
+ <div class="anim-controls">
+  <button type="button" id="startSim">▶ Démarrer le chronomètre et le chauffage</button>
+  <button type="button" id="pauseSim">Ⅱ Pause</button>
+  <button type="button" id="resetSim">↺ Recommencer</button>
+  <button type="button" id="takeReading" disabled>+ Relever cette mesure</button>
+ </div>
+ <div class="anim-status" id="simStatus">L’expérience est prête. Appuie sur « Démarrer le chronomètre » pour commencer.</div>
+ <p class="note" style="text-align:center">Schéma simplifié. Au départ, l’eau est à 20 °C : elle ne bout pas et aucune bulle n’est visible. Le thermomètre est déjà plongé dans l’eau, sans toucher le fond.</p>
+</div>
+</section>
+<section class="panel">
+<h2>3. Tableau de mesures</h2>
+<p class="note">Une colonne correspond à un relevé. Le temps est noté en minutes et secondes.</p>
+<div style="overflow-x:auto">
+<table id="measureTable">
+<thead><tr><th style="width:150px">Mesure</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr></thead>
+<tbody>
+<tr id="timeRow"><th>Temps (min : s)</th><td><input class="time-cell" type="text" aria-label="Temps mesure 1"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 2"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 3"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 4"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 5"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 6"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 7"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 8"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 9"></td><td><input class="time-cell" type="text" aria-label="Temps mesure 10"></td></tr>
+<tr id="tempRow"><th>Température (°C)</th><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 1"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 2"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 3"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 4"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 5"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 6"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 7"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 8"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 9"></td><td><input class="temp-cell" type="number" step="1" aria-label="Température mesure 10"></td></tr>
+</tbody></table></div>
+<button id="reset" type="button">Effacer le tableau</button>
+</section>
+<section class="panel">
+<h2>4. À toi de construire le graphique</h2>
+<p>Reporte les valeurs du tableau dans le repère : clique à l’endroit correspondant à chaque couple (temps ; température). Les points apparaissent dans l’ordre où tu les places.</p>
+<div class="graph-inputs">
+ <label>Titre du graphique<input id="graphTitle" type="text" placeholder="Ex. Évolution de la température de l’eau"></label>
+ <label>Nom de l’axe horizontal<input id="xLabel" type="text" placeholder="Temps (min)"></label>
+ <label>Nom de l’axe vertical<input id="yLabel" type="text" placeholder="Ex. Température (°C)"></label>
+</div>
+<canvas id="studentGraph" width="900" height="520"></canvas>
+<p class="note" id="plotHelp">Repère : de 0 à 12 min en abscisse et de 0 à 120 °C en ordonnée. Les temps du tableau au format min:s sont convertis pour le placement. Clique dans le quadrillage pour placer les points.</p>
+<button type="button" id="undoPoint">Annuler le dernier point</button>
+<button type="button" id="clearPoints">Effacer les points</button>
+<button type="button" id="joinPoints">Relier les points</button>
+<button type="button" id="printGraphs">Imprimer le graphique (2 exemplaires)</button>
+<div id="graphPrintArea" style="display:none">
+ <div class="print-grid">
+  <div class="print-one"><h3 id="printTitle1">Graphique – Élève 1</h3><canvas id="printGraph1" width="900" height="430"></canvas></div>
+  <div class="print-one"><h3 id="printTitle2">Graphique – Élève 2</h3><canvas id="printGraph2" width="900" height="430"></canvas></div>
+ </div>
+</div>
+</section>
+</div>
+<section class="panel">
+<h2>5. Bilan</h2>
+<label for="a"><b>a.</b> Comment évolue la température de l’eau avant l’ébullition ?</label>
+<textarea id="a"></textarea>
+<label for="b"><b>b.</b> Que devient la température lorsque l’eau entre en ébullition ?</label>
+<textarea id="b"></textarea>
+<label for="c"><b>c.</b> Quelle est la température d’ébullition de l’eau pure d’après tes mesures ?</label>
+<textarea id="c"></textarea>
+<button type="button" onclick="window.print()">Imprimer mon travail</button>
+</section>
+<section class="panel">
+<h2>5. Petit quiz : as-tu compris le graphique ?</h2>
+<div class="quiz-q"><b>1. Sur quel axe place-t-on le temps ?</b><br>
+<label><input type="radio" name="q1" value="x"> Axe horizontal</label>
+<label><input type="radio" name="q1" value="y"> Axe vertical</label></div>
+<div class="quiz-q"><b>2. Sur quel axe place-t-on la température ?</b><br>
+<label><input type="radio" name="q2" value="x"> Axe horizontal</label>
+<label><input type="radio" name="q2" value="y"> Axe vertical</label></div>
+<div class="quiz-q"><b>3. Sur l’axe du temps, une graduation vaut 2 minutes. Quelle est la valeur de la 3e graduation après 0 ?</b><br>
+<label><input type="radio" name="q3" value="4"> 4 min</label>
+<label><input type="radio" name="q3" value="6"> 6 min</label>
+<label><input type="radio" name="q3" value="8"> 8 min</label></div>
+<div class="quiz-q"><b>4. Pendant l’ébullition de l’eau pure, la température…</b><br>
+<label><input type="radio" name="q4" value="augmente"> augmente</label>
+<label><input type="radio" name="q4" value="stable"> reste constante</label>
+<label><input type="radio" name="q4" value="diminue"> diminue</label></div>
+<button type="button" id="checkQuiz">Vérifier mes réponses</button><span class="feedback" id="quizFeedback"></span>
+</section>
+<section class="panel">
+<h2>6. Retour sur tes hypothèses</h2>
+<p>Compare tes réponses du début avec les résultats de l’expérience.</p>
+<p><b>Température prévue :</b> <span id="hypTempReview">Aucune réponse choisie.</span></p>
+<p><b>Forme de la courbe prévue :</b> <span id="hypCurveReview">Aucune réponse choisie.</span></p>
+<label for="review">Mes hypothèses étaient-elles correctes ? Explique en une phrase.</label>
+<textarea id="review"></textarea>
+<label for="conclusion"><b>Conclusion :</b> Quelle est la température d’ébullition de l’eau pure et que devient-elle si on continue à chauffer ?</label>
+<textarea id="conclusion"></textarea>
+</section>
+</main>
+<script>
+
+const timeCells=[...document.querySelectorAll('.time-cell')],tempCells=[...document.querySelectorAll('.temp-cell')];
+function parseClock(value){
+ const m=value.trim().match(/^(?:(\d+)\s*[:m]\s*)?(\d{1,2})\s*s?$/i);
+ if(!m)return null;
+ const mins=m[1]?Number(m[1]):0,secs=Number(m[2]);
+ if(secs>=60)return null;
+ return mins*60+secs;
+}
+function data(){
+ return timeCells.map((el,i)=>({sec:parseClock(el.value),temp:tempCells[i].value.trim()===''?null:Number(tempCells[i].value)}))
+ .filter(p=>p.sec!==null&&p.temp!==null&&Number.isFinite(p.temp)).map(p=>[p.sec/60,p.temp]).sort((a,b)=>a[0]-b[0]);
+}
+document.getElementById('reset').onclick=()=>{[...timeCells,...tempCells].forEach(el=>el.value='');};
+const graph=document.getElementById('studentGraph'),gctx=graph.getContext('2d');
+let placed=[],joined=false;
+function drawGrid(c,points=[],connect=false,title='',xl='',yl=''){
+ const cctx=c.getContext('2d'),W=c.width,H=c.height,L=75,R=25,T=55,B=70;
+ cctx.clearRect(0,0,W,H);cctx.fillStyle='#fff';cctx.fillRect(0,0,W,H);
+ const X=v=>L+v/12*(W-L-R),Y=v=>H-B-v/120*(H-T-B);
+ cctx.strokeStyle='#dce5e9';cctx.lineWidth=1;cctx.font='16px Arial';cctx.fillStyle='#344b59';
+ for(let v=0;v<=12;v+=1){cctx.beginPath();cctx.moveTo(X(v),T);cctx.lineTo(X(v),H-B);cctx.stroke();if(v%2===0)cctx.fillText(v,X(v)-5,H-B+25)}
+ for(let v=0;v<=120;v+=10){cctx.beginPath();cctx.moveTo(L,Y(v));cctx.lineTo(W-R,Y(v));cctx.stroke();if(v%20===0)cctx.fillText(v,30,Y(v)+5)}
+ cctx.strokeStyle='#203747';cctx.lineWidth=2;cctx.beginPath();cctx.moveTo(L,T);cctx.lineTo(L,H-B);cctx.lineTo(W-R,H-B);cctx.stroke();
+ cctx.fillStyle='#203747';cctx.font='bold 19px Arial';cctx.textAlign='center';if(title)cctx.fillText(title,W/2,27);
+ cctx.font='17px Arial';cctx.fillText(xl||'Nom de l’axe horizontal',(L+W-R)/2,H-12);
+ cctx.save();cctx.translate(20,(T+H-B)/2);cctx.rotate(-Math.PI/2);cctx.fillText(yl||'Nom de l’axe vertical',0,0);cctx.restore();cctx.textAlign='left';
+ if(connect&&points.length>1){cctx.strokeStyle='#176b87';cctx.lineWidth=3;cctx.beginPath();points.forEach((p,i)=>i?cctx.lineTo(X(p[0]),Y(p[1])):cctx.moveTo(X(p[0]),Y(p[1])));cctx.stroke()}
+ points.forEach((p,i)=>{const x=X(p[0]),y=Y(p[1]),r=7;cctx.strokeStyle='#c47b12';cctx.lineWidth=2.5;cctx.beginPath();cctx.moveTo(x-r,y);cctx.lineTo(x+r,y);cctx.moveTo(x,y-r);cctx.lineTo(x,y+r);cctx.stroke();cctx.fillStyle='#203747';cctx.font='13px Arial';cctx.fillText(String(i+1),x+9,y-8)});
+}
+function draw(){drawGrid(graph,placed,joined,document.getElementById('graphTitle').value,document.getElementById('xLabel').value,document.getElementById('yLabel').value)}
+graph.addEventListener('click',ev=>{
+ const r=graph.getBoundingClientRect(),px=(ev.clientX-r.left)*graph.width/r.width,py=(ev.clientY-r.top)*graph.height/r.height;
+ const L=75,R=25,T=55,B=70;if(px<L||px>graph.width-R||py<T||py>graph.height-B)return;
+ const t=Math.round((px-L)/(graph.width-L-R)*12*10)/10,temp=Math.round((graph.height-B-py)/(graph.height-T-B)*120);
+ placed.push([t,temp]);joined=false;draw();
+});
+['graphTitle','xLabel','yLabel'].forEach(id=>document.getElementById(id).addEventListener('input',draw));
+document.getElementById('undoPoint').onclick=()=>{placed.pop();draw()};
+document.getElementById('clearPoints').onclick=()=>{placed=[];joined=false;draw()};
+document.getElementById('joinPoints').onclick=()=>{joined=true;draw()};
+document.getElementById('printGraphs').onclick=()=>{
+ const title=document.getElementById('graphTitle').value||'Graphique – Évolution de la température';
+ document.getElementById('printTitle1').textContent=title+' – Élève 1';
+ document.getElementById('printTitle2').textContent=title+' – Élève 2';
+ drawGrid(document.getElementById('printGraph1'),placed,joined, title,document.getElementById('xLabel').value,document.getElementById('yLabel').value);
+ drawGrid(document.getElementById('printGraph2'),placed,joined, title,document.getElementById('xLabel').value,document.getElementById('yLabel').value);
+ document.getElementById('graphPrintArea').style.display='block';document.body.classList.add('print-graphs');window.print();document.body.classList.remove('print-graphs');document.getElementById('graphPrintArea').style.display='none';
+};
+document.getElementById('checkQuiz').onclick=()=>{
+ const answers={q1:'x',q2:'y',q3:'6',q4:'stable'};let score=0;
+ for(const [q,a] of Object.entries(answers)){if(document.querySelector(`input[name="${q}"]:checked`)?.value===a)score++}
+ document.getElementById('quizFeedback').textContent=` Résultat : ${score}/4 bonnes réponses.`;
+};
+document.querySelectorAll('input[name="boilHyp"],input[name="curveHyp"]').forEach(el=>el.addEventListener('change',()=>{
+ const t=document.querySelector('input[name="boilHyp"]:checked')?.value;
+ const c=document.querySelector('input[name="curveHyp"]:checked')?.value;
+ document.getElementById('hypTempReview').textContent=t?`${t} °C`:'Aucune réponse choisie.';
+ document.getElementById('hypCurveReview').textContent=({rise:'La température continue d’augmenter.',flat:'La température reste constante.',fall:'La température diminue.'})[c]||'Aucune réponse choisie.';
+}));
+function drawPrediction(id,type){
+ const c=document.getElementById(id),x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);x.strokeStyle='#aab9c1';x.beginPath();x.moveTo(20,8);x.lineTo(20,100);x.lineTo(170,100);x.stroke();x.strokeStyle='#16839a';x.lineWidth=3;x.beginPath();x.moveTo(22,90);x.lineTo(70,55);if(type==='rise')x.lineTo(160,15);else if(type==='flat')x.lineTo(160,55);else x.lineTo(160,85);x.stroke();
+}
+drawPrediction('predA','rise');drawPrediction('predB','flat');drawPrediction('predC','fall');
+document.querySelectorAll('.prediction').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('.prediction').forEach(e=>e.classList.remove('selected'));el.classList.add('selected')}));
+draw();
+// Chronomètre et chauffage démarrent ensemble.
+let simElapsed=0, simRunning=false, simTimer=null;
+const simDuration=240; // 12 minutes simulées ; 1 seconde réelle = 3 secondes simulées
+const timeOut=document.getElementById('simTime'),tempOut=document.getElementById('simTemp');
+const statusOut=document.getElementById('simStatus'),steam=document.getElementById('steam');
+const water=document.getElementById('water'),thermoFill=document.getElementById('thermoFill');
+const startButton=document.getElementById('startSim'),readingButton=document.getElementById('takeReading');
+function simTemperature(t){return t<=24 ? 20+(80*t/24) : 100;}
+// Création de nombreuses bulles : leur nombre augmente progressivement avec la température.
+const bubbleLayer=water;
+const bubbleCount=30;
+for(let i=0;i<bubbleCount;i++){
+ const b=document.createElement('i');
+ b.className='bubble';
+ b.style.left=(7+((i*37)%87))+'%';
+ const size=5+((i*13)%8);
+ b.style.width=size+'px';b.style.height=size+'px';
+ b.style.animationDelay=(-((i*0.41)%2.4))+'s';
+ b.style.visibility='hidden';
+ bubbleLayer.appendChild(b);
+}
+function renderSim(){
+ const totalSeconds=Math.round(simElapsed*3),mm=Math.floor(totalSeconds/60),ss=totalSeconds%60;
+ const temp=Math.round(simTemperature(simElapsed));
+ timeOut.textContent=`${mm} min ${String(ss).padStart(2,'0')} s`;tempOut.textContent=temp;
+ thermoFill.style.height=(8+(temp/100)*82)+'%';
+ water.style.height=(62+(temp-20)*.12)+'%';
+ const boiling=temp>=100;
+ const firstBubbles=temp>=70 && !boiling;
+ steam.style.opacity=boiling?'1':'0';
+ const visibleBubbles=temp<70?0:Math.min(bubbleCount,2+Math.round((temp-70)/30*(bubbleCount-2)));
+ bubbleLayer.querySelectorAll('.bubble').forEach((b,i)=>{
+   b.style.animationDuration=(boiling?'1.05s':(2.0-(temp-70)*0.018)+'s');
+   b.style.animationPlayState=i<visibleBubbles?'running':'paused';
+   b.style.visibility=i<visibleBubbles?'visible':'hidden';
+ });
+ if(boiling) statusOut.textContent='Ébullition : de nombreuses bulles de vapeur se forment dans toute l’eau. La température reste à 100 °C.';
+ else if(firstBubbles) statusOut.textContent='De petites bulles apparaissent de plus en plus nombreuses : l’eau approche de l’ébullition.';
+ else statusOut.textContent='L’eau se réchauffe : sa température augmente. À 20 °C, aucune ébullition ni bulle n’est visible.';
+ if(simElapsed>=simDuration){stopSim();statusOut.textContent='Fin de la simulation : l’eau a bouilli à 100 °C pendant plusieurs minutes.';}
+}
+function stopSim(){simRunning=false;if(simTimer){clearInterval(simTimer);simTimer=null;}startButton.disabled=false;readingButton.disabled=simElapsed===0;}
+startButton.addEventListener('click',()=>{
+ if(simElapsed>=simDuration){simElapsed=0;renderSim();}
+ if(simRunning)return;simRunning=true;startButton.disabled=true;readingButton.disabled=false;
+ statusOut.textContent='Chronomètre et chauffage en marche…';
+ simTimer=setInterval(()=>{simElapsed=Math.min(simDuration,simElapsed+0.0666667);renderSim();if(simElapsed>=simDuration)stopSim();},100);
+});
+document.getElementById('pauseSim').addEventListener('click',()=>{if(simRunning){stopSim();statusOut.textContent='Pause : le chauffage et le chronomètre sont arrêtés temporairement.';}});
+document.getElementById('resetSim').addEventListener('click',()=>{stopSim();simElapsed=0;renderSim();startButton.disabled=false;readingButton.disabled=true;statusOut.textContent='Expérience remise à zéro. Appuie sur « Démarrer le chronomètre » pour recommencer.';});
+readingButton.addEventListener('click',()=>{
+ if(simElapsed===0){statusOut.textContent='Démarre d’abord le chronomètre et le chauffage.';return;}
+ const index=timeCells.findIndex((el,i)=>el.value.trim()===''&&tempCells[i].value.trim()==='');
+ if(index<0){statusOut.textContent='Le tableau est complet. Efface-le pour recommencer.';return;}
+ const totalSeconds=Math.round(simElapsed*3),mins=Math.floor(totalSeconds/60),secs=totalSeconds%60;
+ timeCells[index].value=`${mins}:${String(secs).padStart(2,'0')}`;
+ tempCells[index].value=Math.round(simTemperature(simElapsed));
+ statusOut.textContent=`Mesure ajoutée au tableau : ${Math.round(simTemperature(simElapsed))} °C.`;
+});
+renderSim();
+</script>
+</body></html>
