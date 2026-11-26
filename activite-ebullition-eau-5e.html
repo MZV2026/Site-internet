@@ -321,7 +321,7 @@ const timeOut=document.getElementById('simTime'),tempOut=document.getElementById
 const statusOut=document.getElementById('simStatus'),steam=document.getElementById('steam');
 const water=document.getElementById('water'),thermoFill=document.getElementById('thermoFill');
 const startButton=document.getElementById('startSim'),readingButton=document.getElementById('takeReading');
-function simTemperature(t){return t<=60 ? 16+(84*t/60) : 100;}
+function simTemperature(t){return t<=90 ? 16+(84*t/90) : 100;}
 function waterState(temp){return temp>=100?'Ébullition (liquide + vapeur)':'Liquide (se réchauffe)';}
 // Création de nombreuses bulles : leur nombre augmente progressivement avec la température.
 const bubbleLayer=water;
