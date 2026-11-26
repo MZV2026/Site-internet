@@ -353,9 +353,11 @@ function renderSim(){
    b.style.animationPlayState=i<visibleBubbles?'running':'paused';
    b.style.visibility=i<visibleBubbles?'visible':'hidden';
  });
- if(boiling) statusOut.textContent='Ébullition : de nombreuses bulles de vapeur se forment dans toute l’eau. La température reste à 100 °C.';
+ if(boiling && resistanceOn) statusOut.textContent='Ébullition : de nombreuses bulles de vapeur se forment dans toute l’eau. La température reste à 100 °C.';
+ else if(!resistanceOn && temp>16) statusOut.textContent='Résistance arrêtée : l’eau refroidit progressivement.';
+ else if(!resistanceOn) statusOut.textContent='Résistance arrêtée : l’eau est à sa température initiale de 16 °C.';
  else if(firstBubbles) statusOut.textContent='De petites bulles apparaissent de plus en plus nombreuses : l’eau approche de l’ébullition.';
- else statusOut.textContent='L’eau se réchauffe : sa température augmente. À 20 °C, aucune ébullition ni bulle n’est visible.';
+ else statusOut.textContent='Résistance en marche : l’eau se réchauffe. À 16 °C, aucune bulle n’est visible.';
  if(simElapsed>=simDuration){stopSim();statusOut.textContent='Fin de la simulation : l’eau a bouilli à 100 °C pendant plusieurs minutes.';}
 }
 function stopSim(){simRunning=false;if(simTimer){clearInterval(simTimer);simTimer=null;}document.getElementById('pauseSim').disabled=true;}
