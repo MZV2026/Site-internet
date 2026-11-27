@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf8f5">
+  <meta name="description" content="Tutoriels de technologie : vidéos et guides pour apprendre à utiliser des logiciels, des outils et du matériel.">
+  <title>Tutoriels · VAUBAN Espace Technologie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css?v=3">
+  <style>
+    .page-intro{padding:38px 0 28px}
+    .breadcrumb{font-size:13px;color:#8a7b72;margin:0 0 24px}
+    .breadcrumb a{color:#078f91;text-decoration:none}
+    .page-intro h1{font-size:clamp(36px,4vw,56px);margin-bottom:12px}
+    .page-intro p{font-size:18px;color:#756e69;max-width:850px;line-height:1.55;margin:0}
+    .category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;padding-bottom:42px}
+    .category-card{display:grid;grid-template-columns:82px 1fr;gap:18px;align-items:center;min-height:150px;padding:22px;background:#fff;border:1px solid #eee9e5;border-radius:19px;box-shadow:0 8px 17px rgba(70,48,39,.09);text-decoration:none;color:#49352f;position:relative;overflow:hidden}
+    .category-card:after{content:"";position:absolute;bottom:0;left:0;right:0;height:7px;background:linear-gradient(90deg,#20b9b2,#c5a38f)}
+    .category-icon{width:78px;height:78px;border-radius:17px;background:#eff3f2;display:grid;place-items:center;color:#078f91}
+    .category-icon svg{width:48px;height:48px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+    .category-card h2{font:800 21px/1.15 Manrope,sans-serif;margin:0 0 8px;color:#4a3029}
+    .category-card p{font-size:14px;line-height:1.45;color:#5f5853;margin:0 0 9px}
+    .soon{display:inline-block;font-size:11px;color:#8a7568;background:#f3eee9;padding:5px 9px;border-radius:20px}
+    .note{padding:18px 20px;margin:0 0 34px;border:1px solid #e7dfd7;border-radius:14px;background:#f4f0ec;color:#645950;font-size:14px;line-height:1.5}
+    @media(max-width:760px){.page-intro{padding:28px 0 22px}.page-intro p{font-size:16px}.category-grid{grid-template-columns:1fr;gap:14px}.category-card{grid-template-columns:66px 1fr;padding:16px;min-height:125px}.category-icon{width:62px;height:62px}.category-card h2{font-size:18px}}
+  </style>
+</head>
+<body>
+<header class="header">
+  <a class="brand" href="../" aria-label="VAUBAN Espace Technologie, accueil">
+    <svg class="brand-logo" viewBox="0 0 760 142" role="img" aria-labelledby="brand-title brand-desc">
+      <title id="brand-title">VAUBAN Espace Technologie</title>
+      <desc id="brand-desc">Symbole circulaire bicolore prolongé par des circuits électroniques turquoise, avec le nom VAUBAN Espace Technologie.</desc>
+      <g class="brand-circuits" fill="none" stroke="#07999b" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 69H54L77 47H119M19 103H57L80 81H119M38 35H69L91 57M178 47L201 24H224M179 83H207L229 104M180 65H211L231 45"/>
+        <circle cx="5" cy="69" r="4.5" fill="#07999b"/><circle cx="19" cy="103" r="4.5" fill="#07999b"/><circle cx="38" cy="35" r="4.5" fill="#07999b"/>
+        <circle cx="224" cy="24" r="4.5" fill="#07999b"/><circle cx="229" cy="104" r="4.5" fill="#07999b"/><circle cx="231" cy="45" r="4.5" fill="#07999b"/>
+      </g>
+      <g transform="translate(59 4)">
+        <path d="M64 0A64 64 0 0 0 64 128V84A20 20 0 0 1 64 44Z" fill="#4a4141"/>
+        <path d="M72 0A64 64 0 0 1 72 128V84A20 20 0 0 0 72 44Z" fill="#a8958a"/>
+        <circle cx="68" cy="64" r="20" fill="#faf8f5"/>
+      </g>
+      <path d="M246 15V127" stroke="#b7aaa0" stroke-width="1.5"/>
+      <text x="266" y="72" font-family="Georgia,'Times New Roman',serif" font-size="65" letter-spacing="2.5" fill="#49352f">VAUBAN</text>
+      <text x="269" y="119" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="600" letter-spacing="1.1" fill="#493f40">ESPACE TECHNOLOGIE</text>
+    </svg>
+  </a>
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="../"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10h-6v-6H9v6H3z"/></svg>Accueil</a>
+    <a class="active" href="../#applications"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H10l2 2h7.5A1.5 1.5 0 0 1 21 8.5v10a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg>Ressources</a>
+    <a href="../#footer"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg>À propos</a>
+  </nav>
+  <button class="menu" type="button" aria-label="Ouvrir le menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</header>
+<main>
+  <section class="page-intro">
+    <p class="breadcrumb"><a href="../">Accueil</a> / Tutoriels</p>
+    <span class="hero-mark"></span>
+    <h1>Les tutoriels</h1>
+    <p>Des vidéos et des guides pratiques pour apprendre à utiliser les logiciels, les outils et le matériel de technologie. Choisis un thème et avance à ton rythme.</p>
+  </section>
+  <section class="category-grid" aria-label="Catégories de tutoriels">
+    <article class="category-card">
+      <span class="category-icon"><svg viewBox="0 0 64 64"><path d="m8 48 4-16L39 5l17 17-27 27-16 4zM34 10l17 17M12 32l17 17M8 48l16-4"/></svg></span>
+      <div><h2>CAO et modélisation 3D</h2><p>Découvre la modélisation volumique, la création de pièces et la conception de mécanismes.</p><span class="soon">Tutoriels à ajouter</span></div>
+    </article>
+    <article class="category-card">
+      <span class="category-icon"><svg viewBox="0 0 64 64"><path d="M10 20h44v28H10zM18 20v-8h28v8M20 30h8m8 0h8M20 39h8m8 0h8M32 48v8"/></svg></span>
+      <div><h2>Électronique et robotique</h2><p>Apprends à brancher et à utiliser les capteurs, les cartes, les moteurs et les actionneurs.</p><span class="soon">Tutoriels à ajouter</span></div>
+    </article>
+    <article class="category-card">
+      <span class="category-icon"><svg viewBox="0 0 64 64"><path d="m24 14-18 18 18 18M40 14l18 18-18 18M37 7 27 57"/></svg></span>
+      <div><h2>Programmation</h2><p>Comprends les blocs, les algorithmes, les conditions, les boucles et le pilotage de systèmes.</p><span class="soon">Tutoriels à ajouter</span></div>
+    </article>
+    <article class="category-card">
+      <span class="category-icon"><svg viewBox="0 0 64 64"><path d="M9 22h46v31H9zM17 22V9h30v13M23 35h18M32 35v18"/></svg></span>
+      <div><h2>Fabrication et prototypage</h2><p>Retrouve des démonstrations sur l'impression 3D, la fabrication et la réalisation de prototypes.</p><span class="soon">Tutoriels à ajouter</span></div>
+    </article>
+  </section>
+  <aside class="note">Les tutoriels seront sélectionnés par le professeur. Les vidéos seront ajoutées progressivement avec leur niveau conseillé et, lorsque c'est utile, une fiche d'accompagnement.</aside>
+</main>
+<footer id="footer"><span></span><strong>VAUBAN · ESPACE TECHNOLOGIE</strong><span></span></footer>
+<script>
+const menu=document.querySelector('.menu'),nav=document.querySelector('.nav');
+menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')==='true';menu.setAttribute('aria-expanded',String(!open));nav.classList.toggle('open',!open)});
+</script>
+</body>
+</html>
