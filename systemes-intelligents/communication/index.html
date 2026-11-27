@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#faf8f5">
+<title>Communication · VAUBAN Espace Technologie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css?v=3">
+<style>
+.page-intro{padding:34px 0 22px}.breadcrumb{font-size:13px;color:#897b72;margin:0 0 20px}.breadcrumb a{color:#078f91;text-decoration:none}
+.page-intro h1{font-size:clamp(36px,4vw,56px);margin:0 0 12px}.page-intro p{font-size:18px;color:#756e69;max-width:900px;line-height:1.55;margin:0}
+.content-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:24px 0 38px}
+.panel{background:#fff;border:1px solid #eee7e1;border-radius:18px;padding:22px;box-shadow:0 7px 17px #4630270d}
+.panel h2{font:800 22px/1.2 Manrope,sans-serif;color:#49352f;margin:0 0 12px}.panel h3{font:700 17px Manrope,sans-serif;margin:18px 0 7px;color:#49352f}
+.panel p,.panel li{color:#5e5651;line-height:1.55}.panel ul{padding-left:20px;margin:8px 0}
+.callout{background:#eef7f5;border-left:4px solid #07999b;padding:14px 16px;border-radius:9px;margin:15px 0;color:#514a45}
+.tag{display:inline-block;background:#f1ece7;color:#806c60;border-radius:30px;padding:5px 10px;font-size:12px;font-weight:700;margin:3px 4px 3px 0}
+.placeholder{border:1px dashed #cbbdb2;background:#fbf8f5;border-radius:12px;padding:14px;color:#82766e;font-size:14px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}th,td{padding:10px 11px;border-bottom:1px solid #ece5df;text-align:left;vertical-align:top}th{background:#f4f0ec;color:#49352f}
+@media(max-width:760px){.content-grid{grid-template-columns:1fr}.page-intro{padding:26px 0 16px}.page-intro p{font-size:16px}.panel{padding:18px}}
+</style></head>
+<body>
+<header class="header">
+<a class="brand" href="../../" aria-label="VAUBAN Espace Technologie, accueil">
+<svg class="brand-logo" viewBox="0 0 760 142" role="img" aria-label="VAUBAN Espace Technologie">
+<g class="brand-circuits" fill="none" stroke="#07999b" stroke-width="4.5" stroke-linecap="round"><path d="M5 69H54L77 47H119M19 103H57L80 81H119M38 35H69L91 57M178 47L201 24H224M179 83H207L229 104M180 65H211L231 45"/></g>
+<g transform="translate(59 4)"><path d="M64 0A64 64 0 0 0 64 128V84A20 20 0 0 1 64 44Z" fill="#4a4141"/><path d="M72 0A64 64 0 0 1 72 128V84A20 20 0 0 0 72 44Z" fill="#a8958a"/><circle cx="68" cy="64" r="20" fill="#faf8f5"/></g>
+<path d="M246 15V127" stroke="#b7aaa0" stroke-width="1.5"/><text x="266" y="72" font-family="Georgia,serif" font-size="65" letter-spacing="2.5" fill="#49352f">VAUBAN</text><text x="269" y="119" font-family="Arial,sans-serif" font-size="29" font-weight="600" letter-spacing="1.1" fill="#493f40">ESPACE TECHNOLOGIE</text></svg></a>
+<nav class="nav" aria-label="Navigation principale"><a href="../../">Accueil</a><a class="active" href="../">Objets connectés</a></nav><button class="menu" type="button" aria-label="Menu"><span></span><span></span></button>
+</header>
+<main>
+<section class="page-intro"><p class="breadcrumb"><a href="../../">Accueil</a> / <a href="../">Objets connectés</a> / Communication</p><h1>Communication</h1><p>Comprendre comment les objets connectés échangent des informations : Bluetooth, Wi-Fi, liaisons filaires et autres technologies radio.</p></section>
+<section class="content-grid">
+<article class="panel"><h2>Pourquoi communiquer ?</h2><p>Un objet connecté peut transmettre les mesures d'un capteur, recevoir une commande à distance ou échanger des informations avec un autre objet, un smartphone ou un réseau.</p><h3>Les éléments d'une communication</h3><ul><li>Un émetteur et un récepteur.</li><li>Un support de transmission : câble ou ondes radio.</li><li>Un protocole qui définit les règles d'échange.</li><li>Des données et une vitesse de transmission.</li></ul></article>
+<article class="panel"><h2>Communication filaire ou sans fil ?</h2><table><thead><tr><th>Solution</th><th>Support</th><th>Atouts</th><th>Limites</th></tr></thead><tbody><tr><td>USB / série</td><td>Câble</td><td>Simple, fiable à courte distance</td><td>Mobilité limitée</td></tr><tr><td>Ethernet</td><td>Câble réseau</td><td>Débit élevé, liaison stable</td><td>Câblage nécessaire</td></tr><tr><td>Bluetooth / BLE</td><td>Radio 2,4 GHz</td><td>Connexion de proximité, faible consommation en BLE</td><td>Portée généralement limitée</td></tr><tr><td>Wi-Fi</td><td>Radio 2,4 / 5 / 6 GHz selon norme</td><td>Débits élevés, réseau local et Internet</td><td>Consommation plus importante</td></tr><tr><td>LoRa / LoRaWAN</td><td>Radio sub-GHz selon région</td><td>Longue portée, faible débit</td><td>Petites quantités de données</td></tr></tbody></table></article>
+<article class="panel"><h2>Bluetooth et Bluetooth Low Energy</h2><p>Bluetooth est une technologie radio destinée aux échanges à courte portée. Elle est utilisée pour relier des périphériques et des objets à un smartphone ou à une carte.</p><ul><li><strong>Bluetooth classique :</strong> adapté notamment à l'audio et aux échanges continus.</li><li><strong>Bluetooth Low Energy (BLE) :</strong> conçu pour échanger de petites quantités de données en limitant la consommation d'énergie.</li><li><strong>Caractéristiques à comparer :</strong> portée réelle, débit utile, consommation, fréquence et compatibilité.</li></ul><div class="callout">La portée et le débit réels dépendent de la version, des antennes, des obstacles et de l'environnement radio.</div></article>
+<article class="panel"><h2>Wi-Fi</h2><p>Le Wi-Fi permet de connecter des équipements à un réseau local sans câble. Une box ou un point d'accès relie généralement les appareils au réseau et éventuellement à Internet.</p><ul><li>Bandes de fréquences courantes : 2,4 GHz et 5 GHz ; 6 GHz avec certaines générations et réglementations.</li><li>Débit théorique variable selon la norme, le nombre d'antennes et la largeur de canal.</li><li>Plus adapté que BLE aux transferts importants et aux connexions réseau.</li></ul></article>
+<article class="panel"><h2>Comparer les caractéristiques</h2><table><thead><tr><th>Technologie</th><th>Débit indicatif</th><th>Portée indicative</th><th>Usage fréquent</th></tr></thead><tbody><tr><td>Bluetooth Classic</td><td>Jusqu'à quelques Mbit/s selon version</td><td>Quelques mètres à dizaines de mètres</td><td>Audio, périphériques</td></tr><tr><td>BLE</td><td>Débit PHY typique 1 ou 2 Mbit/s selon mode</td><td>Proximité, variable selon matériel</td><td>Capteurs, objets basse consommation</td></tr><tr><td>Wi-Fi</td><td>De dizaines de Mbit/s à plusieurs Gbit/s selon norme et conditions</td><td>Typiquement bâtiment / domicile</td><td>Réseau local, Internet, vidéo</td></tr><tr><td>LoRa</td><td>Quelques centaines de bit/s à quelques dizaines de kbit/s</td><td>Plusieurs kilomètres possibles selon environnement</td><td>Télémétrie, capteurs éloignés</td></tr></tbody></table><p><small>Valeurs indicatives et non garanties : distinguer débit théorique de la liaison et débit réellement disponible pour les données.</small></p></article>
+<article class="panel"><h2>Radiofréquence : une famille, pas un protocole</h2><p>Bluetooth, Wi-Fi et LoRa utilisent tous des ondes radio. « Radiofréquence » désigne le moyen physique de transmission, tandis que Bluetooth, Wi-Fi ou LoRa désignent des technologies avec leurs propres règles de communication.</p><div class="placeholder">À ajouter : schéma de portée comparée et activité élève pour choisir une technologie selon un scénario (bracelet connecté, caméra Wi-Fi, capteur agricole distant…).</div></article>
+</section>
+</main>
+<footer class="site-footer"><div class="wrap">VAUBAN · Espace Technologie — Ressources pédagogiques de technologie</div></footer>
+</body></html>
