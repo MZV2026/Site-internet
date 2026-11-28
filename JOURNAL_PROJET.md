@@ -6,7 +6,7 @@
 
 Ce journal suit l'ensemble du site : portail, Systèmes intelligents et connectés, VAUBLOCKS, Mes activités, Robotique et projets, Maquette Designer et Tutoriels.
 
-## 28 novembre 2026 — Mise en place du suivi global
+## 28 novembre 2026 — Première intégration de VAUBLOCKS\n\n- Ajout d'une première page applicative dans `vaublocks/index.html`, basée sur Blockly 12.3.1 chargé depuis CDN.\n- Mise en place d'un configurateur de ports pour un capteur de luminosité Grove (A0 à A5) et une DEL Grove (D2 à D8).\n- Ajout de blocs de démarrage, boucle, lecture analogique du capteur, commande de DEL, comparaison conditionnelle et temporisation.\n- Les ports sont affichés dans les blocs et pilotés par le configurateur ; ils ne sont pas choisis directement dans les blocs.\n- Le code Arduino est généré localement et peut être copié ou téléchargé. Aucun téléversement, aucune simulation et aucune validation physique ne sont encore réalisés.\n- Cette première version est un prototype d'interface et de génération ; elle doit être testée dans un navigateur et revue avant toute intégration dans la branche principale.\n\n## 28 novembre 2026 — Mise en place du suivi global
 
 - Lecture de la page d'accueil actuelle du dépôt.
 - Constat : l'accueil présente déjà les rubriques, mais VAUBLOCKS, Mes activités, Robotique et projets et Maquette Designer sont encore indiqués comme à venir ou non raccordés.
