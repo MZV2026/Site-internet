@@ -10,7 +10,7 @@
 :root{--ink:#302d2b;--muted:#77716c;--paper:#f7f5f1;--card:#fff;--line:#e7e1da;--teal:#078f91;--green:#287a58}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Arial,sans-serif}
 header{background:#fff;border-bottom:1px solid var(--line);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.brand{font-size:23px;font-weight:800;letter-spacing:1px;color:#493b3b}.brand span{color:var(--teal)}.sub{font-size:12px;color:var(--muted)}
+.brand img{display:block;width:min(420px,55vw);height:auto;max-height:88px;object-fit:contain}.header-brand{display:flex;align-items:center;gap:18px}.sub{font-size:12px;color:var(--muted)}
 main{max-width:1500px;margin:auto;padding:16px}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
 button{border:0;border-radius:7px;padding:10px 14px;font-weight:700;cursor:pointer;background:#e9e5df;color:var(--ink)}button.primary{background:var(--teal);color:white}
 .status{color:var(--muted);font-size:13px;margin-left:auto}
@@ -27,7 +27,7 @@ label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}select{w
 </style>
 </head>
 <body>
-<header><div><div class="brand">VAU<span>BLOCKS</span></div><div class="sub">Prototype d'intégration · Arduino Uno R3 + Grove Base Shield V2.1</div></div><div class="sub">Version de test — capteur de luminosité + DEL Grove</div></header>
+<header><div class="header-brand"><img src="vaublocks-logo.svg" alt="VAUBLOCKS — Imagine. Programme. Construis."><div class="sub">Prototype d'intégration<br>Arduino Uno R3 + Grove Base Shield V2.1</div></div><div class="sub">Version de test — capteur de luminosité + DEL Grove</div></header>
 <main>
 <div class="toolbar"><button class="primary" id="generate">Générer le code</button><button id="reset">Nouveau programme</button><span class="status" id="status">Initialisation…</span></div>
 <div class="layout">
@@ -46,8 +46,8 @@ label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}select{w
 </main>
 <xml id="toolbox" style="display:none">
 <category name="Démarrage" categorystyle="logic_category"><block type="vb_setup"></block><block type="vb_loop"></block></category>
-<category name="Capteurs Grove" categorystyle="sensor_category"><block type="vb_light_read"></block></category>
-<category name="DEL Grove" categorystyle="colour_category"><block type="vb_led_on"></block><block type="vb_led_off"></block></category>
+<category name="Capteurs Grove" categorystyle="grove_category"><block type="vb_light_read"></block></category>
+<category name="DEL Grove" categorystyle="grove_category"><block type="vb_led_on"></block><block type="vb_led_off"></block></category>
 <category name="Logique" categorystyle="logic_category"><block type="controls_if"></block><block type="logic_compare"></block><block type="logic_boolean"></block><block type="math_number"></block></category>
 <category name="Contrôle" categorystyle="loop_category"><block type="vb_delay"></block></category>
 </xml>
@@ -56,15 +56,16 @@ label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}select{w
 'use strict';const $=id=>document.getElementById(id);
 if(!window.Blockly){$('status').textContent='Blockly ne se charge pas : vérifie la connexion Internet.';return;}
 Blockly.setLocale(Blockly.Msg);
+const vaublocksTheme=Blockly.Theme.defineTheme('vaublocksTheme',{base:Blockly.Themes.Zelos,categoryStyles:{grove_category:{colour:'#1686b5'}},blockStyles:{grove_blocks:{colourPrimary:'#1686b5',colourSecondary:'#14769f',colourTertiary:'#0e5d80'}}});
 Blockly.defineBlocksWithJsonArray([
 {type:'vb_setup',message0:'Au démarrage de la carte',message1:'faire %1',args1:[{type:'input_statement',name:'DO'}],colour:145,tooltip:'Instructions exécutées une seule fois au démarrage.',hat:'cap'},
 {type:'vb_loop',message0:'Répéter indéfiniment %1',args0:[{type:'input_statement',name:'DO'}],colour:145,tooltip:'Instructions répétées en continu.',hat:'cap'},
-{type:'vb_light_read',message0:'lire la luminosité (%1)',args0:[{type:'field_label_serializable',name:'PORT_LABEL',text:'A0'}],output:'Number',colour:195,tooltip:'Renvoie la mesure analogique brute du capteur Grove (0 à 1023).'},
-{type:'vb_led_on',message0:'allumer la DEL Grove (%1)',args0:[{type:'field_label_serializable',name:'PORT_LABEL',text:'D4'}],previousStatement:null,nextStatement:null,colour:210},
+{type:'vb_light_read',message0:'lire la luminosité (%1)',args0:[{type:'field_label_serializable',name:'PORT_LABEL',text:'A0'}],output:'Number',style:'grove_blocks',tooltip:'Renvoie la mesure analogique brute du capteur Grove (0 à 1023).'},
+{type:'vb_led_on',message0:'allumer la DEL Grove (%1)',args0:[{type:'field_label_serializable',name:'PORT_LABEL',text:'D4'}],previousStatement:null,nextStatement:null,style:'grove_blocks'},
 {type:'vb_led_off',message0:'éteindre la DEL Grove (%1)',args0:[{type:'field_label_serializable',name:'PORT_LABEL',text:'D4'}],previousStatement:null,nextStatement:null,colour:210},
 {type:'vb_delay',message0:'attendre %1 ms',args0:[{type:'field_number',name:'MS',value:100,min:0,max:60000,precision:10}],previousStatement:null,nextStatement:null,colour:45}
 ]);
-const ws=Blockly.inject('blocklyDiv',{toolbox:$('toolbox'),trashcan:true,renderer:'zelos',grid:{spacing:20,length:3,colour:'#e6e0d9',snap:true},zoom:{controls:true,wheel:true,startScale:.9,maxScale:1.35,minScale:.55}});
+const ws=Blockly.inject('blocklyDiv',{toolbox:$('toolbox'),trashcan:true,renderer:'zelos',theme:vaublocksTheme,grid:{spacing:20,length:3,colour:'#e6e0d9',snap:true},zoom:{controls:true,wheel:true,startScale:.9,maxScale:1.35,minScale:.55}});
 const stmt=(b,n)=>b&&b.getInputTargetBlock(n);
 function syncLabels(){ws.getAllBlocks(false).forEach(b=>{if(b.type==='vb_light_read')b.setFieldValue($('lightPort').value,'PORT_LABEL');if(b.type==='vb_led_on'||b.type==='vb_led_off')b.setFieldValue($('ledPort').value,'PORT_LABEL');});}
 $('lightPort').addEventListener('change',()=>{syncLabels();generate(false);});
