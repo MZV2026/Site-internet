@@ -10,14 +10,14 @@
 :root{--ink:#302d2b;--muted:#77716c;--paper:#f7f5f1;--card:#fff;--line:#e7e1da;--teal:#078f91;--green:#287a58}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Arial,sans-serif}
 header{background:#fff;border-bottom:1px solid var(--line);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.brand img{display:block;width:min(560px,100%);height:auto;max-height:190px;object-fit:contain}.header-brand{display:flex;align-items:center;gap:20px;min-width:0}.sub{font-size:12px;color:var(--muted)}
+.brand img{display:block;width:min(476px,100%);height:auto;max-height:162px;object-fit:contain}.header-brand{display:flex;align-items:center;gap:20px;min-width:0}.sub{font-size:12px;color:var(--muted)}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 14px}
 .step{display:flex;align-items:center;gap:10px;padding:11px 13px;background:#fff;border:1px solid var(--line);border-radius:9px;font-weight:700}
 .step b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#1686b5;color:#fff;flex:none}
 .step small{display:block;font-size:11px;font-weight:400;color:var(--muted)}
 .modebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 14px;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:9px}
 .modebar .hint{font-size:12px;color:var(--muted);margin-left:auto}
-.config-wide{margin-bottom:12px}.config-wide .config{grid-template-columns:repeat(2,minmax(180px,260px))}
+.config-wide{margin-bottom:12px}.config-wide .config{grid-template-columns:repeat(2,minmax(0,260px));align-items:end}
 @media(max-width:720px){header{padding:12px}.header-brand{display:block}.brand img{width:100%;max-height:none}.header-brand .sub{margin-top:8px}.steps{grid-template-columns:1fr}.modebar .hint{width:100%;margin-left:0}}
 main{max-width:1500px;margin:auto;padding:16px}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
 button{border:0;border-radius:7px;padding:10px 14px;font-weight:700;cursor:pointer;background:#e9e5df;color:var(--ink)}button.primary{background:var(--teal);color:white}
@@ -25,7 +25,7 @@ button{border:0;border-radius:7px;padding:10px 14px;font-weight:700;cursor:point
 .layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(310px,.8fr);gap:12px}.panel{background:white;border:1px solid var(--line);border-radius:12px;overflow:hidden;min-width:0}
 .panel h2{font-size:15px;margin:0;padding:12px 14px;background:#faf9f7;border-bottom:1px solid var(--line)}
 #blocklyDiv{height:640px;width:100%}.side{display:flex;flex-direction:column;gap:12px}
-.config{padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.config{padding:14px;display:grid;grid-template-columns:repeat(2,minmax(0,260px));column-gap:16px;row-gap:12px;align-items:end}\n.port-field{min-width:0;display:flex;flex-direction:column;align-self:stretch}\n.port-field label{min-height:3em;display:flex;align-items:flex-end;margin-bottom:6px}\n.port-field select{display:block;min-height:38px}
 label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}select{width:100%;padding:9px;border:1px solid #d8d1ca;border-radius:7px;background:#fff;color:var(--ink)}
 .note{font-size:12px;color:var(--muted);padding:0 14px 14px;margin:0}
 #code{margin:0;padding:14px;min-height:270px;max-height:420px;overflow:auto;background:#202a32;color:#e6f0f3;font:12px/1.55 Consolas,monospace;white-space:pre}
@@ -46,8 +46,8 @@ label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}select{w
 <div class="modebar"><strong>Mode d'exécution :</strong><button disabled title="Fonctionnalité en cours de développement">LIVE — direct USB (à développer)</button><button disabled title="Fonctionnalité en cours de développement">UPLOAD — téléverser (à développer)</button><span class="hint">Les deux modes sont prévus ; aucun n'est encore opérationnel.</span></div>
 <section class="panel config-wide"><h2>① Affectation des entrées / sorties — configuration matérielle</h2>
 <div class="config">
-<div><label for="lightPort">Capteur de luminosité Grove — entrée analogique</label><select id="lightPort"><option>A0</option><option>A1</option><option>A2</option><option>A3</option><option>A4</option><option>A5</option></select></div>
-<div><label for="ledPort">DEL Grove — sortie numérique</label><select id="ledPort"><option>D2</option><option>D3</option><option>D4 selected>D4</option><option>D5</option><option>D6</option><option>D7</option><option>D8</option></select></div>
+<div class="port-field"><label for="lightPort">Capteur de luminosité Grove — entrée analogique</label><select id="lightPort"><option>A0</option><option>A1</option><option>A2</option><option>A3</option><option>A4</option><option>A5</option></select></div>
+<div class="port-field"><label for="ledPort">DEL Grove — sortie numérique</label><select id="ledPort"><option>D2</option><option>D3</option><option>D4 selected>D4</option><option>D5</option><option>D6</option><option>D7</option><option>D8</option></select></div>
 </div><p class="note">L'élève affecte d'abord chaque composant au connecteur utilisé sur le montage. VAUBLOCKS réutilise ensuite automatiquement ces ports dans les blocs et le code. Le contrôle des conflits sera renforcé avec le configurateur matériel.</p>
 </section>
 <div class="layout">

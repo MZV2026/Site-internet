@@ -55,3 +55,13 @@ Ce journal suit l'ensemble du site : portail, Systèmes intelligents et connect�
 - Correction d'un défaut identifié dans le générateur : le contenu du bloc « Au démarrage de la carte » était calculé mais non inséré dans la fonction `setup()`.
 - Décision d'étudier Web Serial et un firmware de communication pour le mode LIVE ; aucune installation logicielle obligatoire n'est retenue à ce stade pour les navigateurs compatibles.
 - Aucun test réel sur carte n'a été effectué dans cette étape. Le mode direct, la compilation et le téléversement restent à développer et valider.
+
+
+## 28 novembre 2026 — Ajustements visuels VAUBLOCKS
+
+- Réduction de 15 % de la largeur maximale du logo dans l'en-tête (560 px à 476 px) et de sa hauteur maximale (190 px à 162 px), sans modifier ses proportions.
+- Correction de l'alignement des champs d'affectation : les deux colonnes utilisent la même grille, les libellés disposent d'une hauteur homogène et les sélecteurs sont alignés.
+- Fichier modifié : `vaublocks/index.html`.
+- Tableau de bord actualisé : `suivi-projet.html`.
+- Modifications proposées dans la branche `fix/vaublocks-logo-port-alignment` et une PR dédiée ; aucun changement sur `main`.
+- Vérifications effectuées sur le contenu HTML/CSS et les deux champs. Le rendu dans un navigateur, l'affichage mobile et le déploiement GitHub Pages restent à vérifier.
