@@ -32,3 +32,14 @@ Ce journal suit l'ensemble du site : portail, Systèmes intelligents et connect�
 3. Ne passer une tâche à « terminée » qu'après vérification.
 4. Distinguer les éléments documentés, déduits et testés sur le matériel.
 5. Actualiser en même temps le tableau de bord HTML et ce journal.
+
+
+## 28 novembre 2026 — Identité visuelle et première prise en main de VAUBLOCKS
+
+- L'enseignant a testé la page publiée VAUBLOCKS : les blocs sont déplaçables et paramétrables.
+- Demande de réintégrer le logo VAUBLOCKS défini dans les travaux précédents et d'utiliser le bleu caractéristique de Grove pour les blocs correspondants.
+- Ajout d'un logo vectoriel dans l'en-tête de VAUBLOCKS et application d'une couleur bleue dédiée aux catégories « Capteurs Grove » et « DEL Grove », ainsi qu'aux blocs du capteur et de la DEL.
+- PR #5 fusionnée dans `main` : https://github.com/MZV2026/Site-internet/pull/5
+- Fichiers modifiés : `vaublocks/index.html`, ajout de `vaublocks/vaublocks-logo.svg`.
+- État : modification intégrée dans GitHub. La disponibilité de la version publiée après déploiement Pages reste à vérifier dans le navigateur.
+- Limites inchangées : prototype restreint au capteur de luminosité et à la DEL Grove ; génération du code encore à tester/corriger ; aucune simulation ni téléversement physique.
