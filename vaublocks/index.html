@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VAUBLOCKS · Prototype d'intégration Grove</title>
+<script src="https://unpkg.com/blockly@12.3.1/blockly.min.js"></script>
+<script src="https://unpkg.com/blockly@12.3.1/blocks_compressed.js"></script>
+<script src="https://unpkg.com/blockly@12.3.1/msg/fr.js"></script>
+<style>
+:root{--ink:#302d2b;--muted:#77716c;--paper:#f7f5f1;--card:#fff;--line:#e7e1da;--teal:#078f91;--green:#287a58}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Arial,sans-serif}
+header{background:#fff;border-bottom:1px solid var(--line);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{font-size:23px;font-weight:800;letter-spacing:1px;color:#493b3b}.brand span{color:var(--teal)}.sub{font-size:12px;color:var(--muted)}
+main{max-width:1500px;margin:auto;padding:16px}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+button{border:0;border-radius:7px;padding:10px 14px;font-weight:700;cursor:pointer;background:#e9e5df;color:var(--ink)}button.primary{background:var(--teal);color:white}
+.status{color:var(--muted);font-size:13px;margin-left:auto}
+.layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(310px,.8fr);gap:12px}.panel{background:white;border:1px solid var(--line);border-radius:12px;overflow:hidden;min-width:0}
+.panel h2{font-size:15px;margin:0;padding:12px 14px;background:#faf9f7;border-bottom:1px solid var(--line)}
+#blocklyDiv{height:640px;width:100%}.side{display:flex;flex-direction:column;gap:12px}
+.config{padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}select{width:100%;padding:9px;border:1px solid #d8d1ca;border-radius:7px;background:#fff;color:var(--ink)}
+.note{font-size:12px;color:var(--muted);padding:0 14px 14px;margin:0}
+#code{margin:0;padding:14px;min-height:270px;max-height:420px;overflow:auto;background:#202a32;color:#e6f0f3;font:12px/1.55 Consolas,monospace;white-space:pre}
+.code-actions{padding:10px;display:flex;gap:8px;border-top:1px solid var(--line)}
+.info{padding:14px;font-size:13px;color:var(--muted)}
+@media(max-width:900px){.layout{grid-template-columns:1fr}#blocklyDiv{height:540px}.status{margin-left:0}}
+</style>
+</head>
+<body>
+<header><div><div class="brand">VAU<span>BLOCKS</span></div><div class="sub">Prototype d'intégration · Arduino Uno R3 + Grove Base Shield V2.1</div></div><div class="sub">Version de test — capteur de luminosité + DEL Grove</div></header>
+<main>
+<div class="toolbar"><button class="primary" id="generate">Générer le code</button><button id="reset">Nouveau programme</button><span class="status" id="status">Initialisation…</span></div>
+<div class="layout">
+<section class="panel"><h2>① Programmer — glisse les blocs dans l'espace de travail</h2><div id="blocklyDiv"></div></section>
+<div class="side">
+<section class="panel"><h2>② Configuration matérielle — les ports sont définis ici</h2>
+<div class="config">
+<div><label for="lightPort">Capteur de luminosité Grove</label><select id="lightPort"><option>A0</option><option>A1</option><option>A2</option><option>A3</option><option>A4</option><option>A5</option></select></div>
+<div><label for="ledPort">DEL Grove</label><select id="ledPort"><option>D2</option><option>D3</option><option>D4 selected>D4</option><option>D5</option><option>D6</option><option>D7</option><option>D8</option></select></div>
+</div>
+<p class="note">Le configurateur est la source de vérité pour les ports. Les blocs affichent le port affecté sans permettre de le modifier directement. Évite d'affecter deux modules au même connecteur Grove.</p>
+</section>
+<section class="panel"><h2>③ Code Arduino C++ généré</h2><pre id="code">// Le code apparaîtra ici.</pre><div class="code-actions"><button id="copy">Copier</button><button id="download">Télécharger .ino</button></div></section>
+<section class="panel"><h2>À savoir pour ce prototype</h2><div class="info">Le capteur fournit une mesure analogique brute (0 à 1023), pas une valeur en lux. Le seuil du programme est réglable par l'élève. La génération du code est locale ; compilation, connexion USB, téléversement et simulation ne sont pas encore activés.</div></section>
+</div></div>
+</main>
+<xml id="toolbox" style="display:none">
+<category name="Démarrage" categorystyle="logic_category"><block type="vb_setup"></block><block type="vb_loop"></block></category>
+<category name="Capteurs Grove" categorystyle="sensor_category"><block type="vb_light_read"></block></category>
+<category name="DEL Grove" categorystyle="colour_category"><block type="vb_led_on"></block><block type="vb_led_off"></block></category>
+<category name="Logique" categorystyle="logic_category"><block type="controls_if"></block><block type="logic_compare"></block><block type="logic_boolean"></block><block type="math_number"></block></category>
+<category name="Contrôle" categorystyle="loop_category"><block type="vb_delay"></block></category>
+</xml>
+<script>
+(function(){
+'use strict';const $=id=>document.getElementById(id);
+if(!window.Blockly){$('status').textContent='Blockly ne se charge pas : vérifie la connexion Internet.';return;}
+Blockly.setLocale(Blockly.Msg);
+Blockly.defineBlocksWithJsonArray([
+{type:'vb_setup',message0:'Au démarrage de la carte',message1:'faire %1',args1:[{type:'input_statement',name:'DO'}],colour:145,tooltip:'Instructions exécutées une seule fois au démarrage.',hat:'cap'},
+{type:'vb_loop',message0:'Répéter indéfiniment %1',args0:[{type:'input_statement',name:'DO'}],colour:145,tooltip:'Instructions répétées en continu.',hat:'cap'},
+{type:'vb_light_read',message0:'lire la luminosité (%1)',args0:[{type:'field_label_serializable',name:'PORT_LABEL',text:'A0'}],output:'Number',colour:195,tooltip:'Renvoie la mesure analogique brute du capteur Grove (0 à 1023).'},
+{type:'vb_led_on',message0:'allumer la DEL Grove (%1)',args0:[{type:'field_label_serializable',name:'PORT_LABEL',text:'D4'}],previousStatement:null,nextStatement:null,colour:210},
+{type:'vb_led_off',message0:'éteindre la DEL Grove (%1)',args0:[{type:'field_label_serializable',name:'PORT_LABEL',text:'D4'}],previousStatement:null,nextStatement:null,colour:210},
+{type:'vb_delay',message0:'attendre %1 ms',args0:[{type:'field_number',name:'MS',value:100,min:0,max:60000,precision:10}],previousStatement:null,nextStatement:null,colour:45}
+]);
+const ws=Blockly.inject('blocklyDiv',{toolbox:$('toolbox'),trashcan:true,renderer:'zelos',grid:{spacing:20,length:3,colour:'#e6e0d9',snap:true},zoom:{controls:true,wheel:true,startScale:.9,maxScale:1.35,minScale:.55}});
+const stmt=(b,n)=>b&&b.getInputTargetBlock(n);
+function syncLabels(){ws.getAllBlocks(false).forEach(b=>{if(b.type==='vb_light_read')b.setFieldValue($('lightPort').value,'PORT_LABEL');if(b.type==='vb_led_on'||b.type==='vb_led_off')b.setFieldValue($('ledPort').value,'PORT_LABEL');});}
+$('lightPort').addEventListener('change',()=>{syncLabels();generate(false);});
+$('ledPort').addEventListener('change',()=>{syncLabels();generate(false);});
+function valCode(b){if(!b)return '0';if(b.type==='vb_light_read')return 'analogRead('+analogPin($('lightPort').value)+')';if(b.type==='math_number')return String(Number(b.getFieldValue('NUM'))||0);return '0';}
+function analogPin(p){return p;}
+function chain(b){let s='';while(b){s+=codeBlock(b);b=b.getNextBlock();}return s;}
+function codeBlock(b){
+if(b.type==='vb_led_on')return '  digitalWrite('+digitalPin($('ledPort').value)+', HIGH);\n';
+if(b.type==='vb_led_off')return '  digitalWrite('+digitalPin($('ledPort').value)+', LOW);\n';
+if(b.type==='vb_delay')return '  delay('+Math.max(0,Number(b.getFieldValue('MS'))||0)+');\n';
+if(b.type==='controls_if'){let c=valCode(stmt(b,'IF0'));let comp=stmt(b,'IF0');if(comp&&comp.type==='logic_compare'){const a=valCode(stmt(comp,'A')),z=valCode(stmt(comp,'B')),op=({EQ:'==',NEQ:'!=',LT:'<',LTE:'<=',GT:'>',GTE:'>='})[comp.getFieldValue('OP')];c=a+' '+op+' '+z;}return '  if ('+c+') {\n'+chain(stmt(b,'DO0'))+'  }\n';}
+return '';
+}
+function digitalPin(p){return p.slice(1);}
+function generate(show=true){
+syncLabels();const tops=ws.getTopBlocks(true),setup=tops.find(b=>b.type==='vb_setup'),loop=tops.find(b=>b.type==='vb_loop');
+const setupBody=setup?chain(stmt(setup,'DO')):'',loopBody=loop?chain(stmt(loop,'DO')):'';
+const code='// Programme généré par VAUBLOCKS — prototype Grove\n// Arduino Uno R3 + Grove Base Shield V2.1\n\nvoid setup() {\n  pinMode('+digitalPin($('ledPort').value)+', OUTPUT);\n}\n\nvoid loop() {\n'+loopBody+'}\n';
+$('code').textContent=code;if(show)$('status').textContent='Code généré · '+ws.getAllBlocks(false).length+' blocs';return code;
+}
+ws.addChangeListener(e=>{if(!e.isUiEvent)generate(false);});
+$('generate').onclick=()=>generate(true);
+$('reset').onclick=()=>{if(confirm('Effacer le programme ?')){ws.clear();generate(false);}};
+$('copy').onclick=async()=>{try{await navigator.clipboard.writeText($('code').textContent);$('status').textContent='Code copié.';}catch(e){$('status').textContent='Copie non disponible dans ce contexte.';}};
+$('download').onclick=()=>{const blob=new Blob([generate(true)],{type:'text/plain'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='vaublocks-prototype.ino';a.click();URL.revokeObjectURL(a.href);};
+generate(false);$('status').textContent='Prêt · Blockly chargé';
+})();
+</script>
+</body></html>
