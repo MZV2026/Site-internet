@@ -2,9 +2,16 @@
 
 **Dépôt :** MZV2026/Site-internet  
 **Portail :** https://mzv2026.github.io/Site-internet/  
-**Branche de travail :** `feature/vaublocks-catalogue-integration`
+**Branche de travail :** `docs/vaublocks-catalogue-pir-correction`
 
 Ce journal suit l'ensemble du site : portail, Systèmes intelligents et connectés, VAUBLOCKS, Mes activités, Robotique et projets, Maquette Designer et Tutoriels.
+
+## 28 novembre 2026 — Correction du catalogue VAUBLOCKS
+
+- Le second détecteur PIR manquant dans le décompte a été identifié par l'utilisateur : Grove Détecteur de mouvement, référence 101020020 (lien fabricant/revendeur fourni : https://www.gotronic.fr/art-detecteur-de-mouvement-grove-101020020-18975.htm).
+- Le catalogue distingue désormais deux modules PIR : Grove Mini PIR 101020353 et Grove PIR 101020020. Ils ne doivent pas être fusionnés dans une fiche unique.
+- Correction du décompte : le second PIR était déjà compris dans les 11 capteurs prévus, même si sa référence manquait dans la liste détaillée. Le total reste donc de 30 composants, dont 11 capteurs.
+- Le catalogue complet reste à consolider avant validation définitive des références.
 
 ## 28 novembre 2026 — Mise en place du suivi global
 
