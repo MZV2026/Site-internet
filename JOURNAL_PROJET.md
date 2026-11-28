@@ -2,7 +2,7 @@
 
 **Dépôt :** MZV2026/Site-internet  
 **Portail :** https://mzv2026.github.io/Site-internet/  
-**Branche de travail :** `feature/vaublocks-catalogue-integration`
+**Branche principale :** `main`
 
 Ce journal suit l'ensemble du site : portail, Systèmes intelligents et connectés, VAUBLOCKS, Mes activités, Robotique et projets, Maquette Designer et Tutoriels.
 
@@ -75,3 +75,18 @@ Ce journal suit l'ensemble du site : portail, Systèmes intelligents et connect�
 - Fichier modifié : `vaublocks/index.html` ; tableau de bord actualisé.
 - Le rendu publié dans le navigateur et le responsive restent à contrôler.
 - Prochaine étape technique : vérifier la génération du code puis le compiler et le tester sur Arduino Uno R3 avec le capteur de luminosité et la DEL Grove.
+
+
+## 28 novembre 2026 — Compactage du bandeau VAUBLOCKS (PR #9)
+
+- Retour de l'enseignant : malgré la réduction précédente de 15 %, le bandeau contenant le logo occupait encore trop de hauteur.
+- Correction ciblée de l'en-tête dans `vaublocks/index.html` :
+  - ordinateur : logo limité à 350 px de large et 112 px de haut ;
+  - mobile : logo limité à 250 px de large et 78 px de haut ;
+  - padding vertical du header réduit de 14 px à 6 px ;
+  - espacement entre les éléments du bandeau diminué.
+- PR #9 fusionnée dans `main` (squash), commit `49d2bb3f5ef020223151efe33983afac9f32bb15`.
+- L'enseignant a vérifié le rendu dans son navigateur et confirmé que le bandeau lui convient.
+- Les champs d'affectation analogique et numérique restent alignés depuis la PR #8 ; ils n'ont pas été modifiés dans cette intervention.
+- Aucun test sur carte Arduino n'a été réalisé.
+- Prochaine étape : l'enseignant doit inventorier les capteurs disponibles afin de préparer un test réel du code généré sur Arduino Uno R3.
