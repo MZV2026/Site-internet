@@ -43,3 +43,15 @@ Ce journal suit l'ensemble du site : portail, Systèmes intelligents et connect�
 - Fichiers modifiés : `vaublocks/index.html`, ajout de `vaublocks/vaublocks-logo.svg`.
 - État : modification intégrée dans GitHub. La disponibilité de la version publiée après déploiement Pages reste à vérifier dans le navigateur.
 - Limites inchangées : prototype restreint au capteur de luminosité et à la DEL Grove ; génération du code encore à tester/corriger ; aucune simulation ni téléversement physique.
+
+
+## 28 novembre 2026 — Restauration du logo et clarification du parcours VAUBLOCKS
+
+- L'enseignant a retrouvé et transmis le logo original VauBlocks en PNG.
+- Création de la branche `feature/vaublocks-logo-parcours` à partir de `main` (commit de départ `425c15f`).
+- Intégration proposée du PNG original dans l'en-tête, en remplacement du SVG simplifié ; adaptation responsive prévue.
+- Réorganisation de l'interface dans l'ordre pédagogique validé : 1) affectation des entrées/sorties, 2) programmation Blockly, 3) test sur la carte.
+- Ajout de repères visuels pour les deux modes décidés : LIVE (direct USB) et UPLOAD (compilation/téléversement). Les commandes restent désactivées car les fonctions ne sont pas développées.
+- Correction d'un défaut identifié dans le générateur : le contenu du bloc « Au démarrage de la carte » était calculé mais non inséré dans la fonction `setup()`.
+- Décision d'étudier Web Serial et un firmware de communication pour le mode LIVE ; aucune installation logicielle obligatoire n'est retenue à ce stade pour les navigateurs compatibles.
+- Aucun test réel sur carte n'a été effectué dans cette étape. Le mode direct, la compilation et le téléversement restent à développer et valider.

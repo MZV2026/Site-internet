@@ -10,7 +10,15 @@
 :root{--ink:#302d2b;--muted:#77716c;--paper:#f7f5f1;--card:#fff;--line:#e7e1da;--teal:#078f91;--green:#287a58}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Arial,sans-serif}
 header{background:#fff;border-bottom:1px solid var(--line);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.brand img{display:block;width:min(420px,55vw);height:auto;max-height:88px;object-fit:contain}.header-brand{display:flex;align-items:center;gap:18px}.sub{font-size:12px;color:var(--muted)}
+.brand img{display:block;width:min(560px,100%);height:auto;max-height:190px;object-fit:contain}.header-brand{display:flex;align-items:center;gap:20px;min-width:0}.sub{font-size:12px;color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 14px}
+.step{display:flex;align-items:center;gap:10px;padding:11px 13px;background:#fff;border:1px solid var(--line);border-radius:9px;font-weight:700}
+.step b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#1686b5;color:#fff;flex:none}
+.step small{display:block;font-size:11px;font-weight:400;color:var(--muted)}
+.modebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 14px;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:9px}
+.modebar .hint{font-size:12px;color:var(--muted);margin-left:auto}
+.config-wide{margin-bottom:12px}.config-wide .config{grid-template-columns:repeat(2,minmax(180px,260px))}
+@media(max-width:720px){header{padding:12px}.header-brand{display:block}.brand img{width:100%;max-height:none}.header-brand .sub{margin-top:8px}.steps{grid-template-columns:1fr}.modebar .hint{width:100%;margin-left:0}}
 main{max-width:1500px;margin:auto;padding:16px}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
 button{border:0;border-radius:7px;padding:10px 14px;font-weight:700;cursor:pointer;background:#e9e5df;color:var(--ink)}button.primary{background:var(--teal);color:white}
 .status{color:var(--muted);font-size:13px;margin-left:auto}
@@ -27,21 +35,26 @@ label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}select{w
 </style>
 </head>
 <body>
-<header><div class="header-brand"><img src="vaublocks-logo.svg" alt="VAUBLOCKS — Imagine. Programme. Construis."><div class="sub">Prototype d'intégration<br>Arduino Uno R3 + Grove Base Shield V2.1</div></div><div class="sub">Version de test — capteur de luminosité + DEL Grove</div></header>
+<header><div class="header-brand"><div class="brand"><img src="vaublocks-logo.png" alt="VauBlocks — Imagine. Programme. Construis. La programmation au service de la technologie."></div><div class="sub">Arduino Uno R3<br>Grove Base Shield V2.1</div></div><div class="sub">Prototype pédagogique — version de développement</div></header>
 <main>
-<div class="toolbar"><button class="primary" id="generate">Générer le code</button><button id="reset">Nouveau programme</button><span class="status" id="status">Initialisation…</span></div>
-<div class="layout">
-<section class="panel"><h2>① Programmer — glisse les blocs dans l'espace de travail</h2><div id="blocklyDiv"></div></section>
-<div class="side">
-<section class="panel"><h2>② Configuration matérielle — les ports sont définis ici</h2>
-<div class="config">
-<div><label for="lightPort">Capteur de luminosité Grove</label><select id="lightPort"><option>A0</option><option>A1</option><option>A2</option><option>A3</option><option>A4</option><option>A5</option></select></div>
-<div><label for="ledPort">DEL Grove</label><select id="ledPort"><option>D2</option><option>D3</option><option>D4 selected>D4</option><option>D5</option><option>D6</option><option>D7</option><option>D8</option></select></div>
+<div class="steps">
+<div class="step"><b>1</b><span>Affectation des E/S<small>Je configure les composants et leurs ports.</small></span></div>
+<div class="step"><b>2</b><span>Programmation<small>Je construis l'algorithme avec les blocs.</small></span></div>
+<div class="step"><b>3</b><span>Test sur la carte<small>Je lance le programme et vérifie le montage.</small></span></div>
 </div>
-<p class="note">Le configurateur est la source de vérité pour les ports. Les blocs affichent le port affecté sans permettre de le modifier directement. Évite d'affecter deux modules au même connecteur Grove.</p>
+<div class="toolbar"><button class="primary" id="generate">Générer le code</button><button id="reset">Nouveau programme</button><span class="status" id="status">Initialisation…</span></div>
+<div class="modebar"><strong>Mode d'exécution :</strong><button disabled title="Fonctionnalité en cours de développement">LIVE — direct USB (à développer)</button><button disabled title="Fonctionnalité en cours de développement">UPLOAD — téléverser (à développer)</button><span class="hint">Les deux modes sont prévus ; aucun n'est encore opérationnel.</span></div>
+<section class="panel config-wide"><h2>① Affectation des entrées / sorties — configuration matérielle</h2>
+<div class="config">
+<div><label for="lightPort">Capteur de luminosité Grove — entrée analogique</label><select id="lightPort"><option>A0</option><option>A1</option><option>A2</option><option>A3</option><option>A4</option><option>A5</option></select></div>
+<div><label for="ledPort">DEL Grove — sortie numérique</label><select id="ledPort"><option>D2</option><option>D3</option><option>D4 selected>D4</option><option>D5</option><option>D6</option><option>D7</option><option>D8</option></select></div>
+</div><p class="note">L'élève affecte d'abord chaque composant au connecteur utilisé sur le montage. VAUBLOCKS réutilise ensuite automatiquement ces ports dans les blocs et le code. Le contrôle des conflits sera renforcé avec le configurateur matériel.</p>
 </section>
+<div class="layout">
+<section class="panel"><h2>② Programmation — glisse les blocs dans l'espace de travail</h2><div id="blocklyDiv"></div></section>
+<div class="side">
 <section class="panel"><h2>③ Code Arduino C++ généré</h2><pre id="code">// Le code apparaîtra ici.</pre><div class="code-actions"><button id="copy">Copier</button><button id="download">Télécharger .ino</button></div></section>
-<section class="panel"><h2>À savoir pour ce prototype</h2><div class="info">Le capteur fournit une mesure analogique brute (0 à 1023), pas une valeur en lux. Le seuil du programme est réglable par l'élève. La génération du code est locale ; compilation, connexion USB, téléversement et simulation ne sont pas encore activés.</div></section>
+<section class="panel"><h2>À savoir pour ce prototype</h2><div class="info">Le capteur fournit une mesure analogique brute (0 à 1023), pas une valeur en lux. Le seuil du programme est réglable par l'élève. La génération du code est locale. Les modes LIVE (exécution directe avec communication USB) et UPLOAD (compilation et téléversement) sont prévus mais ne sont pas encore activés. Le mode direct nécessitera un firmware de communication préinstallé sur la carte.</div></section>
 </div></div>
 </main>
 <xml id="toolbox" style="display:none">
@@ -84,7 +97,7 @@ function digitalPin(p){return p.slice(1);}
 function generate(show=true){
 syncLabels();const tops=ws.getTopBlocks(true),setup=tops.find(b=>b.type==='vb_setup'),loop=tops.find(b=>b.type==='vb_loop');
 const setupBody=setup?chain(stmt(setup,'DO')):'',loopBody=loop?chain(stmt(loop,'DO')):'';
-const code='// Programme généré par VAUBLOCKS — prototype Grove\n// Arduino Uno R3 + Grove Base Shield V2.1\n\nvoid setup() {\n  pinMode('+digitalPin($('ledPort').value)+', OUTPUT);\n}\n\nvoid loop() {\n'+loopBody+'}\n';
+const code='// Programme généré par VAUBLOCKS — prototype Grove\n// Arduino Uno R3 + Grove Base Shield V2.1\n\nvoid setup() {\n  pinMode('+digitalPin($('ledPort').value)+', OUTPUT);\n'+setupBody+'}\n\nvoid loop() {\n'+loopBody+'}\n';
 $('code').textContent=code;if(show)$('status').textContent='Code généré · '+ws.getAllBlocks(false).length+' blocs';return code;
 }
 ws.addChangeListener(e=>{if(!e.isUiEvent)generate(false);});
