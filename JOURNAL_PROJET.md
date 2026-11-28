@@ -65,3 +65,13 @@ Ce journal suit l'ensemble du site : portail, Systèmes intelligents et connect�
 - Tableau de bord actualisé : `suivi-projet.html`.
 - Modifications proposées dans la branche `fix/vaublocks-logo-port-alignment` et une PR dédiée ; aucun changement sur `main`.
 - Vérifications effectuées sur le contenu HTML/CSS et les deux champs. Le rendu dans un navigateur, l'affichage mobile et le déploiement GitHub Pages restent à vérifier.
+
+
+## 28 novembre 2026 — Fusion des ajustements visuels VAUBLOCKS
+
+- PR #8 fusionnée dans `main` (squash), commit `22c829f88784d7fe12192b2c180b2d179545d734`.
+- Logo réduit d'environ 15 % sans déformation.
+- Alignement des champs d'affectation analogique et numérique harmonisé.
+- Fichier modifié : `vaublocks/index.html` ; tableau de bord actualisé.
+- Le rendu publié dans le navigateur et le responsive restent à contrôler.
+- Prochaine étape technique : vérifier la génération du code puis le compiler et le tester sur Arduino Uno R3 avec le capteur de luminosité et la DEL Grove.
